@@ -26,8 +26,17 @@ A clean, client-side attendance intelligence calculator and leave simulator for 
 
 ## 2. Preview
 
-<!-- Add your preview image/screenshot below -->
-![Preview](assets/preview.png)
+### Single Course Deep-Dive Drawer
+![Single Course Detailed Report](data/right_panle.png)
+
+### Extension Toolbar Popup
+![Extension Popup](data/flotting_pop.png)
+
+### Full Attendance Intelligence Dashboard
+![Full Screen Dashboard](data/full_screen.png)
+
+### In-Page Table Integration
+![Inline Table Info](data/info.png)
 
 ---
 

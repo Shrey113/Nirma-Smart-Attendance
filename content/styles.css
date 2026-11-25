@@ -708,8 +708,15 @@
   text-transform: uppercase;
 }
 
-.nsa-type-lecture { background: #e0e7ff; color: #3730a3; }
-.nsa-type-practical { background: #fce7f3; color: #9d174d; }
+.nsa-type-lecture {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.nsa-type-practical {
+  background: #fce7f3;
+  color: #9d174d;
+}
 
 /* All Courses Overview Card */
 .nsa-overview-card {
