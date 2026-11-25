@@ -28,21 +28,68 @@
 
     <!-- INACTIVE STATE -->
     <section id="inactiveState" class="nsa-inactive" style="display: none;">
-      <div class="nsa-inactive-icon">
-        <svg class="nsa-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <div class="nsa-inactive-card">
+        <!-- Visual Icon Badge with subtle gradient & shadow -->
+        <div class="nsa-inactive-icon-wrapper">
+          <div class="nsa-inactive-icon">
+            <svg class="nsa-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              <line x1="9" y1="7" x2="15" y2="7"></line>
+              <line x1="9" y1="11" x2="13" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div class="nsa-inactive-text">
+          <h2 class="nsa-inactive-title">Connect to Nirma Portal</h2>
+          <p class="nsa-inactive-desc">
+            Open your student attendance report to calculate safe leaves, evaluate what-if scenarios, and view live course metrics.
+          </p>
+        </div>
+
+        <div class="nsa-portal-badge" title="https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx">
+          <div class="nsa-portal-dot"></div>
+          <span class="nsa-portal-host">mis.nirmauni.ac.in</span>
+          <span class="nsa-portal-path">/Reports/StudentAttendanceReport</span>
+        </div>
+
+        <div class="nsa-inactive-actions">
+          <button id="btnOpenAttendancePage" class="nsa-btn nsa-btn-primary nsa-btn-launch">
+            <svg class="nsa-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            Open Attendance Report
+          </button>
+          <div id="cachedOptionBox" style="display: none; width: 100%;">
+            <button id="btnOpenCachedDashboard" class="nsa-btn nsa-btn-secondary nsa-btn-cached">
+              <svg class="nsa-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              View Saved Offline Report
+            </button>
+          </div>
+        </div>
       </div>
-      <h2>Open Attendance Page</h2>
-      <p>Please open your Nirma University attendance report:</p>
-      <div class="nsa-url-text">https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx</div>
-      <button id="btnOpenAttendancePage" class="nsa-btn nsa-btn-primary">
-        <svg class="nsa-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        Open Attendance Page
-      </button>
-      <div id="cachedOptionBox" style="display: none; width: 100%; margin-top: 8px;">
-        <button id="btnOpenCachedDashboard" class="nsa-btn nsa-btn-secondary">
-          <svg class="nsa-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          View Saved Offline Report
-        </button>
+
+      <!-- Clean feature pills -->
+      <div class="nsa-inactive-features">
+        <div class="nsa-feature-item">
+          <svg class="nsa-feature-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Safe Leaves</span>
+        </div>
+        <div class="nsa-feature-item">
+          <svg class="nsa-feature-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          <span>Simulator</span>
+        </div>
+        <div class="nsa-feature-item">
+          <svg class="nsa-feature-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Local Only</span>
+        </div>
       </div>
     </section>
 

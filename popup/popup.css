@@ -119,44 +119,185 @@ body {
 
 /* Inactive State */
 .nsa-inactive {
-  padding: 36px 20px;
-  text-align: center;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   flex: 1;
 }
 
-.nsa-inactive-icon {
-  font-size: 32px;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: var(--danger-bg);
+.nsa-inactive-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 20px 16px 18px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.nsa-inactive-icon-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 4px;
 }
 
-.nsa-inactive h2 {
+.nsa-inactive-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #bfdbfe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.12);
+}
+
+.nsa-inactive-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.nsa-inactive-title {
   font-size: 15px;
   font-weight: 700;
+  color: var(--gray-900);
+  letter-spacing: -0.2px;
 }
 
-.nsa-inactive p {
-  font-size: 12px;
+.nsa-inactive-desc {
+  font-size: 11.5px;
+  color: var(--gray-500);
+  line-height: 1.45;
+  padding: 0 4px;
+}
+
+.nsa-portal-badge {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  padding: 5px 10px;
+  border-radius: 6px;
+  max-width: 100%;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.nsa-portal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.nsa-portal-host {
+  font-weight: 700;
+  color: var(--gray-700);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10.5px;
+}
+
+.nsa-portal-path {
+  color: var(--gray-400);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nsa-inactive-actions {
+  margin-top: 14px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.nsa-btn-launch {
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nsa-btn-launch:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
+}
+
+.nsa-btn-cached {
+  width: 100%;
+  padding: 7px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 7px;
+  border: 1px solid var(--gray-300);
+  background: #ffffff;
+  color: var(--gray-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nsa-btn-cached:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-400);
+  color: var(--gray-900);
+}
+
+/* Inactive State Feature Pills */
+.nsa-inactive-features {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 2px 4px 6px;
+}
+
+.nsa-feature-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
   color: var(--gray-500);
 }
 
-.nsa-url-text {
-  font-size: 10.5px;
-  font-family: monospace;
-  background: var(--gray-100);
-  padding: 6px 10px;
-  border-radius: 6px;
-  word-break: break-all;
-  color: var(--gray-700);
+.nsa-feature-svg {
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 /* Active State */
