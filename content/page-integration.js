@@ -41,7 +41,7 @@
       this.injectDOMContainers();
       this.bindMessageListeners();
 
-      // Delegated click listener for inline "ℹ️ Info" table buttons (capturing phase to intercept before ASP.NET table handlers)
+      // Delegated click listener for inline Info table buttons (capturing phase to intercept before ASP.NET table handlers)
       document.addEventListener('click', (e) => {
         const btn = e.target.closest('.nsa-inline-btn');
         if (btn) {
