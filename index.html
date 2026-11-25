@@ -180,10 +180,12 @@
 
     /* Sleek GitHub Badge in Footer */
     .unified-footer-pill {
-      display: inline-flex;
+      display: inline-flex !important;
       align-items: center;
       gap: 6px;
       line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .footer-made-by-text {
@@ -192,6 +194,7 @@
       display: inline-flex;
       align-items: center;
       gap: 3px;
+      white-space: nowrap;
     }
 
     .github-log-badge {
@@ -206,6 +209,8 @@
       text-decoration: none;
       cursor: pointer;
       line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
       transition: all 0.15s ease;
     }
 
