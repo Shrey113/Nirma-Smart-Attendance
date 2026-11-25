@@ -4,11 +4,23 @@ Client-side attendance calculator and what-if leave simulator for Nirma Universi
 
 ---
 
-## 1. How to Use
+## 1. How to Use & Update
 
-1. **Install:** Open `chrome://extensions/` → Enable **Developer mode** → Click **Load unpacked** and select this folder.
-2. **Open Portal:** Go to [Nirma Student Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) and log in.
-3. **Use Features:** Click any **Info** button in the attendance table for single-subject analysis and live leave simulations, or use the toolbar popup and **Full View** dashboard.
+### First-Time Installation
+1. **Download Source Code:**
+   - Click the green **Code** button at the top of this GitHub repository → **Download ZIP** (or run `git clone https://github.com/Shrey113/Nirma-Smart-Attendance.git`).
+   - Extract the downloaded ZIP file anywhere on your computer.
+2. **Load into Browser:**
+   - Open Chrome, Brave, or Edge and go to `chrome://extensions/`.
+   - Enable **Developer mode** (toggle in the top-right corner).
+   - Click **Load unpacked** and select the extracted folder (`Nirma Smart Attendance`).
+3. **Open Portal:**
+   - Open [Nirma Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) and log in.
+   - Click the **Info** button on any course row to view safe leaves & use the leave simulator, or use the extension toolbar popup.
+
+### How to Update to Latest Version
+1. Download the latest code (or `git pull`) and replace the files in your existing folder.
+2. Go to `chrome://extensions/` and click the **🔄 Reload** icon on the **Nirma Smart Attendance** extension card.
 
 ---
 
