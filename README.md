@@ -42,3 +42,14 @@ Client-side attendance calculator and what-if leave simulator for Nirma Universi
 - **Zero API Calls / Zero Network Requests:** Makes **zero** fetch/HTTP/API requests to any server. Zero external servers or tracking.
 - **Zero Server Footprint:** The university server only delivers the original page; all calculations and overlays execute strictly in local browser memory.
 - **100% Safe & Undetectable:** Credentials, cookies, and server data are never touched, submitted, or transmitted.
+
+---
+
+## 4. Mobile Browser Setup (Android)
+
+Standard mobile Chrome does not allow extensions, but you can use it on Android via **Kiwi Browser**:
+1. Install **[Kiwi Browser](https://play.google.com/store/apps/details?id=com.kiwibrowser.browser)** from Google Play Store.
+2. Download this repository ZIP on your phone (**Code** → **Download ZIP**).
+3. In Kiwi Browser, tap **⋮ (Menu)** → **Extensions** → toggle **Developer mode** ON.
+4. Tap **+(from .zip / .crx / user.js)** and select the downloaded ZIP file.
+5. Open [Nirma Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) in Kiwi Browser to use the extension on mobile.
