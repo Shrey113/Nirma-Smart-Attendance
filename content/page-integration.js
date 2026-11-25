@@ -170,7 +170,12 @@
       document.getElementById('nsa-drawer-overlay').addEventListener('click', () => this.closeDrawer());
       document.getElementById('nsa-refresh-btn').addEventListener('click', () => {
         if (root.attendanceDetector) {
-          root.attendanceDetector.extractAttendance();
+          root.attendanceDetector.lastDataSignature = '';
+          const recs = root.attendanceDetector.extractAttendance();
+          if (recs && recs.length > 0) {
+            this.handleDataUpdated(recs);
+            this.renderDrawerContent();
+          }
         }
       });
 

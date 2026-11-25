@@ -102,6 +102,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchAndRenderAttendance(activeTabId);
   }
 
+  const btnRefreshPopup = document.getElementById('btnRefreshPopup');
+  if (btnRefreshPopup) {
+    btnRefreshPopup.addEventListener('click', () => {
+      if (activeTabId) {
+        fetchAndRenderAttendance(activeTabId);
+      } else {
+        renderFromStorageFallback();
+      }
+    });
+  }
+
   function fetchAndRenderAttendance(tabId) {
     chrome.tabs.sendMessage(tabId, { action: 'GET_ATTENDANCE_DATA' }, (response) => {
       if (chrome.runtime.lastError || !response || !response.records || response.records.length === 0) {

@@ -32,6 +32,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Load attendance data
   await loadAttendanceData();
 
+  const btnRefreshDashboard = document.getElementById('btnRefreshDashboard');
+  if (btnRefreshDashboard) {
+    btnRefreshDashboard.addEventListener('click', async () => {
+      await loadAttendanceData();
+    });
+  }
+
   async function loadAttendanceData() {
     if (window.AttendanceStorage) {
       const cache = await window.AttendanceStorage.getAttendanceData();
