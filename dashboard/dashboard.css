@@ -240,6 +240,69 @@ body {
 .text-danger { color: var(--danger) !important; }
 .text-success { color: var(--safe) !important; }
 
+/* Developer Attribution & Sleek GitHub Badge */
+.unified-footer-pill {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+.footer-made-by-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-500);
+  letter-spacing: 0.1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.github-log-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 5px;
+  border-radius: 9999px;
+  background: #171822;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.github-log-badge:hover {
+  background: #1e202e;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.github-log-icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.github-log-text {
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}
+
 /* UI Icons and Status Dots */
 .nsa-svg {
   display: inline-block;

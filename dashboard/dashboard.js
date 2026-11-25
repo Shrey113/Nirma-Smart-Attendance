@@ -5,8 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
   const dashTargetSelect = document.getElementById('dashTargetSelect');
-  const btnPrintReport = document.getElementById('btnPrintReport');
-  const btnNavPortal = document.getElementById('btnNavPortal');
   const courseSearchInput = document.getElementById('courseSearchInput');
   const attendanceTableBody = document.getElementById('attendanceTableBody');
 
@@ -30,16 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderDashboard();
     });
   }
-
-  // Navigation and Print
-  btnPrintReport.addEventListener('click', () => window.print());
-  btnNavPortal.addEventListener('click', () => {
-    if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
-      chrome.tabs.create({ url: 'https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx' });
-    } else {
-      window.open('https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx', '_blank');
-    }
-  });
 
   // Load attendance data
   await loadAttendanceData();

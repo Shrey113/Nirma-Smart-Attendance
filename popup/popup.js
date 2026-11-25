@@ -260,4 +260,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
   }
+
+  // External link handler for popup
+  document.querySelectorAll('a.github-log-badge').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = link.getAttribute('href');
+      if (url) {
+        chrome.tabs.create({ url });
+      }
+    });
+  });
 });
