@@ -149,7 +149,9 @@
           e.stopImmediatePropagation();
           const act = btn.getAttribute('data-act');
           const records = root.attendanceDetector ? root.attendanceDetector.records : [];
-          const rec = records.find(r => r.id === this.selectedSubjectId) || records[0];
+          const rec = records.find(r => r.id === this.selectedSubjectId) ||
+                      records.find(r => r.id.toLowerCase() === (this.selectedSubjectId || '').toLowerCase()) ||
+                      records[0];
           if (!rec) return;
 
           this.simState[rec.id] = this.simState[rec.id] || { miss: 0, attend: 0 };
@@ -217,6 +219,18 @@
           window.open(chrome.runtime.getURL('dashboard/dashboard.html'), '_blank');
         }
       });
+
+      // Forward wheel scrolling inside drawer header/nav/footer to the scrollable drawer body
+      const drawer = document.getElementById('nsa-drawer');
+      const drawerContent = document.getElementById('nsa-drawer-content');
+      if (drawer && drawerContent) {
+        drawer.addEventListener('wheel', (e) => {
+          if (!e.target.closest('#nsa-drawer-content')) {
+            drawerContent.scrollTop += e.deltaY;
+            e.preventDefault();
+          }
+        }, { passive: false });
+      }
     }
 
     navigateSubject(direction) {
@@ -244,6 +258,10 @@
 
         this.drawerRenderedOnce = true;
         this.renderDrawerContent();
+        const content = document.getElementById('nsa-drawer-content');
+        if (content) {
+          content.scrollTop = 0;
+        }
       }
     }
 
@@ -265,6 +283,10 @@
       if (this.isDrawerOpen && !this.drawerRenderedOnce) {
         this.drawerRenderedOnce = true;
         this.renderDrawerContent();
+        const content = document.getElementById('nsa-drawer-content');
+        if (content) {
+          content.scrollTop = 0;
+        }
       }
     }
 
