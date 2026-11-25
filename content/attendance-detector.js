@@ -5,11 +5,18 @@
 (function (root) {
   'use strict';
 
+  if (root.__nsa_attendance_detector_initialized) {
+    return;
+  }
+  root.__nsa_attendance_detector_initialized = true;
+
   class AttendanceDetector {
     constructor() {
       this.records = [];
       this.observers = [];
       this.onDataDetectedCallbacks = [];
+      this.lastDataSignature = '';
+      this.hasExtractedOnce = false;
       console.log('[NSA] AttendanceDetector initialized on:', window.location.href);
     }
 
@@ -325,15 +332,29 @@
       console.log(`[NSA] Successfully extracted ${detected.length} courses:`, detected);
       this.records = detected;
 
-      // Save to chrome.storage
-      if (root.AttendanceStorage && detected.length > 0) {
-        root.AttendanceStorage.saveAttendanceData(detected.map(r => {
-          const { rowElement, ...clean } = r;
-          return clean;
-        }));
-      }
+      const dataSignature = detected.map(r => `${r.id}:${r.present}:${r.absent}:${r.total}`).join('|');
+      const hasDataChanged = dataSignature !== this.lastDataSignature;
 
-      this.notifySubscribers(detected);
+      // Only notify subscribers and persist if data actually changed or initial extraction
+      if (hasDataChanged || !this.hasExtractedOnce) {
+        this.lastDataSignature = dataSignature;
+        this.hasExtractedOnce = true;
+
+        // Save to chrome.storage
+        if (root.AttendanceStorage && detected.length > 0) {
+          root.AttendanceStorage.saveAttendanceData(detected.map(r => {
+            const { rowElement, ...clean } = r;
+            return clean;
+          }));
+        }
+
+        this.notifySubscribers(detected);
+      } else {
+        // Attendance numbers are identical: only quiet row button updates, NEVER re-render drawer
+        if (root.pageIntegration && typeof root.pageIntegration.injectInlineTableButtonsQuietly === 'function') {
+          root.pageIntegration.injectInlineTableButtonsQuietly(detected);
+        }
+      }
       return detected;
     }
 
@@ -345,11 +366,29 @@
       const targetNode = document.body || document.documentElement;
       if (targetNode) {
         let timer = null;
-        const observer = new MutationObserver(() => {
+        const observer = new MutationObserver((mutations) => {
+          // STRICT FILTER: Ignore any mutation inside our extension wrapper or on our buttons!
+          let hasExternalMutation = false;
+          for (let i = 0; i < mutations.length; i++) {
+            const m = mutations[i];
+            const t = m.target;
+            if (!t) continue;
+            // If target is inside #nsa-root-wrapper or has .nsa-inline-btn, ignore it
+            const insideNSA = (t.id === 'nsa-root-wrapper') || 
+                              (t.closest && t.closest('#nsa-root-wrapper')) ||
+                              (t.classList && t.classList.contains('nsa-inline-btn')) ||
+                              (t.closest && t.closest('.nsa-inline-btn'));
+            if (!insideNSA) {
+              hasExternalMutation = true;
+              break;
+            }
+          }
+          if (!hasExternalMutation) return;
+
           clearTimeout(timer);
           timer = setTimeout(() => {
             this.extractAttendance();
-          }, 200);
+          }, 350);
         });
 
         observer.observe(targetNode, { childList: true, subtree: true });
