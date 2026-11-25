@@ -18,9 +18,7 @@
 
   class PageIntegration {
     constructor() {
-      this.viewMode = 'single'; // 'single' | 'all'
       this.selectedSubjectId = null;
-      this.currentFilter = 'all'; // 'all' | 'low' | 'lecture' | 'practical'
       this.simState = {}; // { [subjectId]: { miss: 0, attend: 0 } }
       this.isDrawerOpen = false;
       this.init();
@@ -49,7 +47,6 @@
           e.stopPropagation();
           e.stopImmediatePropagation();
           const subjectId = btn.getAttribute('data-subject-id');
-          this.viewMode = 'single';
           this.selectedSubjectId = subjectId;
           this.openDrawer(subjectId);
         }
@@ -97,14 +94,14 @@
             </div>
           </div>
 
-          <!-- Subject Navigation Bar (Prev / Dropdown / Next / View All) -->
+          <!-- Subject Navigation Bar (Prev / Dropdown / Next / Full View) -->
           <div class="nsa-subject-nav" id="nsa-subject-nav">
             <button class="nsa-nav-btn" id="nsa-btn-prev" title="Previous Subject">&lt;</button>
             <select class="nsa-subject-select" id="nsa-subject-select"></select>
             <button class="nsa-nav-btn" id="nsa-btn-next" title="Next Subject">&gt;</button>
-            <button class="nsa-btn-all-courses" id="nsa-btn-toggle-view">
-              <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-              All Courses
+            <button class="nsa-btn-full-view" id="nsa-btn-open-full" title="Open Full View Dashboard">
+              <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              Full View
             </button>
           </div>
 
@@ -187,7 +184,6 @@
       // Subject Dropdown
       document.getElementById('nsa-subject-select').addEventListener('change', (e) => {
         this.selectedSubjectId = e.target.value;
-        this.viewMode = 'single';
         this.renderDrawerContent();
       });
 
@@ -199,10 +195,15 @@
         this.navigateSubject(1);
       });
 
-      // Toggle View (Single vs All)
-      document.getElementById('nsa-btn-toggle-view').addEventListener('click', () => {
-        this.viewMode = this.viewMode === 'single' ? 'all' : 'single';
-        this.renderDrawerContent();
+      // Open Full View Dashboard
+      document.getElementById('nsa-btn-open-full').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+          chrome.runtime.sendMessage({ action: 'OPEN_DASHBOARD_TAB' });
+        } else {
+          window.open(chrome.runtime.getURL('dashboard/dashboard.html'), '_blank');
+        }
       });
     }
 
@@ -214,7 +215,6 @@
       if (nextIndex < 0) nextIndex = records.length - 1;
       if (nextIndex >= records.length) nextIndex = 0;
       this.selectedSubjectId = records[nextIndex].id;
-      this.viewMode = 'single';
       this.renderDrawerContent();
     }
 
@@ -228,7 +228,6 @@
 
         if (focusSubjectId) {
           this.selectedSubjectId = focusSubjectId;
-          this.viewMode = 'single';
         }
 
         this.renderDrawerContent();
@@ -322,7 +321,6 @@
     renderDrawerContent() {
       const content = document.getElementById('nsa-drawer-content');
       const navBar = document.getElementById('nsa-subject-nav');
-      const toggleBtn = document.getElementById('nsa-btn-toggle-view');
       const drawerSub = document.getElementById('nsa-drawer-sub');
       if (!content) return;
 
@@ -357,18 +355,10 @@
 
       this.updateSubjectDropdown(records);
 
-      if (this.viewMode === 'single') {
-        // =====================================================================
-        // SINGLE-SUBJECT DEEP-DIVE VIEW
-        // =====================================================================
-        if (navBar) navBar.style.display = 'flex';
-        if (toggleBtn) toggleBtn.innerHTML = `
-          <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          All Courses
-        `;
-        if (drawerSub) drawerSub.textContent = 'Single Course Detailed Report';
+      if (navBar) navBar.style.display = 'flex';
+      if (drawerSub) drawerSub.textContent = 'Single Course Detailed Report';
 
-        const rec = records.find(r => r.id === this.selectedSubjectId) || records[0];
+      const rec = records.find(r => r.id === this.selectedSubjectId) || records[0];
         const p = Number(rec.present) || 0;
         const t = Number(rec.total) || 0;
         const currentPct = calc.calculatePercentage(p, t);
@@ -521,95 +511,6 @@
             </div>
           </div>
         `;
-
-      } else {
-        // =====================================================================
-        // ALL COURSES LIST VIEW
-        // =====================================================================
-        if (toggleBtn) toggleBtn.innerHTML = `
-          <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-          Focus Course
-        `;
-        if (drawerSub) drawerSub.textContent = 'All Courses Summary';
-
-        const agg = calc.calculateAggregates(records, target);
-        let totalLeaves = 0;
-        records.forEach(r => {
-          const p = Number(r.present) || 0;
-          const t = Number(r.total) || 0;
-          totalLeaves += calc.calculateSafeBunks(p, t, target);
-        });
-
-        let filtered = records.filter(r => {
-          const p = Number(r.present) || 0;
-          const t = Number(r.total) || 0;
-          const pct = calc.calculatePercentage(p, t);
-          if (this.currentFilter === 'low') return pct < target;
-          if (this.currentFilter === 'lecture') return r.loadType === 'Lecture';
-          if (this.currentFilter === 'practical') return r.loadType === 'Practical';
-          return true;
-        });
-
-        content.innerHTML = `
-          <!-- Filter tabs -->
-          <div class="nsa-filter-bar">
-            <button class="nsa-filter-btn ${this.currentFilter === 'all' ? 'active' : ''}" data-filter="all">All (${records.length})</button>
-            <button class="nsa-filter-btn ${this.currentFilter === 'low' ? 'active' : ''}" data-filter="low">Below Target (${agg.belowTargetCount})</button>
-            <button class="nsa-filter-btn ${this.currentFilter === 'lecture' ? 'active' : ''}" data-filter="lecture">Lectures</button>
-            <button class="nsa-filter-btn ${this.currentFilter === 'practical' ? 'active' : ''}" data-filter="practical">Practicals</button>
-          </div>
-
-          <!-- Course Cards List -->
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            ${filtered.map(rec => {
-              const p = Number(rec.present) || 0;
-              const t = Number(rec.total) || 0;
-              const pct = calc.calculatePercentage(p, t);
-              const isBelow = pct < target;
-              const safeLeaves = calc.calculateSafeBunks(p, t, target);
-              const needClasses = calc.calculateRequiredClasses(p, t, target);
-              const typeClass = rec.loadType === 'Practical' ? 'nsa-type-practical' : 'nsa-type-lecture';
-
-              return `
-                <div class="nsa-subject-card" data-card-id="${rec.id}">
-                  <div class="nsa-card-header">
-                    <div class="nsa-course-info">
-                      <span class="nsa-course-title">${rec.courseName}</span>
-                      <div class="nsa-course-meta">
-                        <span>${rec.courseCode || ''}</span>
-                        <span class="nsa-type-pill ${typeClass}">${rec.loadType}</span>
-                      </div>
-                    </div>
-                    <span class="nsa-card-pct" style="color: ${isBelow ? '#dc2626' : '#059669'};">
-                      ${pct}%
-                    </span>
-                  </div>
-                  <div class="nsa-leave-hero ${isBelow ? 'nsa-badge-danger' : 'nsa-badge-safe'}" style="padding: 6px 10px; font-size: 12px;">
-                    ${isBelow ? `<span class="nsa-dot nsa-dot-danger"></span>Need to attend ${needClasses} more` : (safeLeaves > 0 ? `<span class="nsa-dot nsa-dot-safe"></span>${safeLeaves} Leaves Allowed` : `<span class="nsa-dot nsa-dot-warning"></span>0 Leaves Allowed`)}
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        `;
-
-        // Card clicks switch to single subject view
-        content.querySelectorAll('[data-card-id]').forEach(card => {
-          card.addEventListener('click', () => {
-            this.selectedSubjectId = card.getAttribute('data-card-id');
-            this.viewMode = 'single';
-            this.renderDrawerContent();
-          });
-        });
-
-        // Filter button clicks
-        content.querySelectorAll('.nsa-filter-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            this.currentFilter = btn.getAttribute('data-filter');
-            this.renderDrawerContent();
-          });
-        });
-      }
     }
 
     bindMessageListeners() {

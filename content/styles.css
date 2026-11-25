@@ -342,6 +342,7 @@
   cursor: pointer;
 }
 
+.nsa-btn-full-view,
 .nsa-btn-all-courses {
   background: #ffffff;
   border: 1px solid var(--nsa-gray-300);
@@ -355,9 +356,14 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  transition: all 0.15s ease;
 }
 
+.nsa-btn-full-view:hover,
 .nsa-btn-all-courses:hover {
+  background: var(--nsa-primary-light);
+  border-color: var(--nsa-primary);
+}
   background: var(--nsa-primary-light);
 }
 
