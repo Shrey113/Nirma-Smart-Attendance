@@ -890,3 +890,12 @@
   color: #0f172a !important;
   border-color: #94a3b8 !important;
 }
+
+/* Ensure table length dropdown & pagination controls remain visible on mobile */
+.dataTables_length,
+div[class*="length"],
+select[name*="length"] {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}

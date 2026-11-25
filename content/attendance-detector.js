@@ -13,11 +13,49 @@
   class AttendanceDetector {
     constructor() {
       this.records = [];
+      this.accumulatedRecords = new Map();
+      this.hasAutoExpandedLength = false;
       this.observers = [];
       this.onDataDetectedCallbacks = [];
       this.lastDataSignature = '';
       this.hasExtractedOnce = false;
       console.log('[NSA] AttendanceDetector initialized on:', window.location.href);
+    }
+
+    /**
+     * Automatically switch the table "Show: 10" dropdown to 50 or 100 on desktop & mobile
+     * so that all courses (e.g. 12+ courses) are rendered on a single page immediately.
+     */
+    autoExpandTableLength() {
+      if (this.hasAutoExpandedLength) return false;
+
+      try {
+        const candidates = document.querySelectorAll('select[name*="length"], select[id*="length"], .dataTables_length select, select');
+        for (let i = 0; i < candidates.length; i++) {
+          const sel = candidates[i];
+          const options = Array.from(sel.options).map(o => String(o.value || o.textContent).trim());
+          const has10 = options.includes('10');
+          const hasBig = options.some(v => v === '50' || v === '100' || v === '25' || v === '-1');
+
+          if (has10 && hasBig) {
+            const targetVal = options.includes('100') ? '100' :
+                              (options.includes('50') ? '50' :
+                              (options.includes('-1') ? '-1' :
+                              (options.includes('25') ? '25' : null)));
+
+            if (targetVal && sel.value !== targetVal) {
+              console.log(`[NSA] Auto-expanding table length from ${sel.value} to ${targetVal}`);
+              this.hasAutoExpandedLength = true;
+              sel.value = targetVal;
+              sel.dispatchEvent(new Event('change', { bubbles: true }));
+              return true;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[NSA] Error auto-expanding table length:', err);
+      }
+      return false;
     }
 
     onDataDetected(callback) {
@@ -329,10 +367,21 @@
         });
       });
 
-      console.log(`[NSA] Successfully extracted ${detected.length} courses:`, detected);
-      this.records = detected;
+      // Automatically expand "Show: 10" dropdown to show all courses on desktop & mobile
+      if (!this.hasAutoExpandedLength) {
+        this.autoExpandTableLength();
+      }
 
-      const dataSignature = detected.map(r => `${r.id}:${r.present}:${r.absent}:${r.total}`).join('|');
+      // Accumulate across paginated pages (merging by stable ID so courses on page 2+ are never lost)
+      detected.forEach(r => {
+        this.accumulatedRecords.set(r.id, r);
+      });
+      const allRecords = Array.from(this.accumulatedRecords.values());
+
+      console.log(`[NSA] Extracted ${detected.length} courses on current page (accumulated total: ${allRecords.length}):`, allRecords);
+      this.records = allRecords;
+
+      const dataSignature = allRecords.map(r => `${r.id}:${r.present}:${r.absent}:${r.total}`).join('|');
       const hasDataChanged = dataSignature !== this.lastDataSignature;
 
       // Only notify subscribers and persist if data actually changed or initial extraction
@@ -340,26 +389,27 @@
         this.lastDataSignature = dataSignature;
         this.hasExtractedOnce = true;
 
-        // Save to chrome.storage
-        if (root.AttendanceStorage && detected.length > 0) {
-          root.AttendanceStorage.saveAttendanceData(detected.map(r => {
+        // Save accumulated courses to chrome.storage
+        if (root.AttendanceStorage && allRecords.length > 0) {
+          root.AttendanceStorage.saveAttendanceData(allRecords.map(r => {
             const { rowElement, ...clean } = r;
             return clean;
           }));
         }
 
-        this.notifySubscribers(detected);
+        this.notifySubscribers(allRecords);
       } else {
-        // Attendance numbers are identical: only quiet row button updates, NEVER re-render drawer
+        // Attendance numbers are identical: only quiet row button updates on visible rows, NEVER re-render drawer
         if (root.pageIntegration && typeof root.pageIntegration.injectInlineTableButtonsQuietly === 'function') {
           root.pageIntegration.injectInlineTableButtonsQuietly(detected);
         }
       }
-      return detected;
+      return allRecords;
     }
 
     startObserving() {
-      // Immediate extraction
+      // Immediate extraction & auto-expansion
+      this.autoExpandTableLength();
       this.extractAttendance();
 
       // 1. Observer for dynamic table changes, sorting, and ASP.NET postbacks
@@ -395,13 +445,13 @@
         this.observers.push(observer);
       }
 
-      // 2. Intercept table sort clicks (e.g. clicking headers with arrows ↕, ASP.NET postbacks, or DataTables)
+      // 2. Intercept table sort and pagination clicks (page numbers, next/prev, DataTables, ASP.NET postbacks)
       document.addEventListener('click', (e) => {
-        const isHeaderOrSort = e.target.closest('th, thead, .sorting, [class*="sort"], a[href*="Sort"], a[href*="__doPostBack"]');
-        if (isHeaderOrSort) {
+        const isHeaderOrSortOrPage = e.target.closest('th, thead, .sorting, [class*="sort"], a[href*="Sort"], a[href*="__doPostBack"], .paginate_button, .pagination, [class*="page"], a[data-dt-idx]');
+        if (isHeaderOrSortOrPage) {
           setTimeout(() => this.extractAttendance(), 60);
-          setTimeout(() => this.extractAttendance(), 180);
-          setTimeout(() => this.extractAttendance(), 500);
+          setTimeout(() => this.extractAttendance(), 200);
+          setTimeout(() => this.extractAttendance(), 600);
         }
       }, true);
 
