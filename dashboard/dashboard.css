@@ -1,0 +1,494 @@
+/* ==========================================================================
+   Nirma Smart Attendance - Full Dashboard Stylesheet
+   ========================================================================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --safe: #10b981;
+  --safe-bg: #ecfdf5;
+  --safe-border: #a7f3d0;
+  --warning: #f59e0b;
+  --warning-bg: #fffbeb;
+  --warning-border: #fde68a;
+  --danger: #ef4444;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-500: #64748b;
+  --gray-700: #334155;
+  --gray-900: #0f172a;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: #f1f5f9;
+  color: var(--gray-900);
+  min-height: 100vh;
+}
+
+.nsa-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Top Navigation Bar */
+.nsa-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.nsa-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nsa-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nsa-brand-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gray-900);
+}
+
+.nsa-brand-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.nsa-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nsa-target-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gray-100);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.nsa-select {
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  background: #ffffff;
+  outline: none;
+  cursor: pointer;
+}
+
+.nsa-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+}
+
+.nsa-btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.nsa-btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.nsa-btn-outline {
+  background: #ffffff;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+}
+
+.nsa-btn-outline:hover {
+  background: var(--gray-50);
+}
+
+/* Main Container */
+.nsa-main-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+}
+
+/* Metrics Grid */
+.nsa-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.nsa-metric-card {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nsa-card-hero {
+  border-left: 4px solid var(--primary);
+}
+
+.nsa-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nsa-metric-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+
+.nsa-hero-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 12px 0 8px;
+}
+
+.nsa-large-pct {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.nsa-stat-sub {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.nsa-metric-val {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 10px 0 4px;
+  color: var(--gray-900);
+}
+
+.nsa-metric-sub {
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+
+.nsa-progress-track {
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.nsa-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.text-danger { color: var(--danger) !important; }
+.text-success { color: var(--safe) !important; }
+
+/* Status Badges */
+.nsa-badge {
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nsa-badge-safe {
+  background: var(--safe-bg);
+  color: #065f46;
+  border: 1px solid var(--safe-border);
+}
+
+.nsa-badge-warning {
+  background: var(--warning-bg);
+  color: #92400e;
+  border: 1px solid var(--warning-border);
+}
+
+.nsa-badge-danger {
+  background: var(--danger-bg);
+  color: #991b1b;
+  border: 1px solid var(--danger-border);
+}
+
+/* Batch Simulation Section */
+.nsa-batch-sim-section {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+}
+
+.nsa-batch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.nsa-batch-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.nsa-batch-sub {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+
+.nsa-batch-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nsa-sim-chip {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nsa-sim-chip:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.nsa-sim-reset {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.nsa-sim-reset:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Table Section */
+.nsa-table-section {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.nsa-table-toolbar {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nsa-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.nsa-tab {
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.nsa-tab.active {
+  background: var(--gray-900);
+  color: #ffffff;
+  border-color: var(--gray-900);
+}
+
+.nsa-search-wrapper {
+  min-width: 280px;
+}
+
+.nsa-search-input {
+  width: 100%;
+  padding: 7px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.nsa-search-input:focus {
+  border-color: var(--primary);
+}
+
+.nsa-table-responsive {
+  overflow-x: auto;
+}
+
+.nsa-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.nsa-table th {
+  background: var(--gray-50);
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-500);
+  border-bottom: 1px solid var(--gray-200);
+  white-space: nowrap;
+}
+
+.nsa-table td {
+  padding: 14px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: middle;
+}
+
+.nsa-table tr:hover td {
+  background: #fbfcfe;
+}
+
+.nsa-table-empty {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--gray-500);
+}
+
+.nsa-type-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.nsa-tag-lec { background: #e0e7ff; color: #3730a3; }
+.nsa-tag-prac { background: #fce7f3; color: #9d174d; }
+
+.nsa-stepper-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nsa-stepper-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.nsa-stepper-item button {
+  background: var(--gray-100);
+  border: none;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.nsa-stepper-item span {
+  width: 28px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Footer */
+.nsa-footer {
+  padding: 18px 36px;
+  border-top: 1px solid var(--gray-200);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+/* Print Styling */
+@media print {
+  .nsa-topbar-actions, .nsa-batch-sim-section, .nsa-table-toolbar, .nsa-stepper-inline {
+    display: none !important;
+  }
+  body { background: #ffffff; }
+  .nsa-metric-card, .nsa-table-section { box-shadow: none; border: 1px solid #ccc; }
+}

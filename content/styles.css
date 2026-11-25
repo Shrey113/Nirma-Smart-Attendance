@@ -1,0 +1,665 @@
+/* ==========================================================================
+   Nirma Smart Attendance - Simplified In-Page UI Stylesheet
+   Focus: Clean, student-friendly, single-subject deep-dive + leave simulator
+   ========================================================================== */
+
+:root {
+  --nsa-primary: #2563eb;
+  --nsa-primary-hover: #1d4ed8;
+  --nsa-primary-light: #eff6ff;
+  --nsa-safe: #059669;
+  --nsa-safe-bg: #ecfdf5;
+  --nsa-safe-border: #a7f3d0;
+  --nsa-warning: #d97706;
+  --nsa-warning-bg: #fffbeb;
+  --nsa-warning-border: #fde68a;
+  --nsa-danger: #dc2626;
+  --nsa-danger-bg: #fef2f2;
+  --nsa-danger-border: #fecaca;
+  --nsa-gray-50: #f8fafc;
+  --nsa-gray-100: #f1f5f9;
+  --nsa-gray-200: #e2e8f0;
+  --nsa-gray-300: #cbd5e1;
+  --nsa-gray-400: #94a3b8;
+  --nsa-gray-500: #64748b;
+  --nsa-gray-700: #334155;
+  --nsa-gray-900: #0f172a;
+  --nsa-shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  --nsa-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Inline Table Action Button */
+.nsa-inline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--nsa-primary-light);
+  color: var(--nsa-primary);
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--nsa-font);
+  margin-left: 6px;
+  white-space: nowrap;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.nsa-inline-btn:hover {
+  background: var(--nsa-primary);
+  color: #ffffff;
+  border-color: var(--nsa-primary);
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+}
+
+/* Backdrop */
+#nsa-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 999998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#nsa-drawer-overlay.nsa-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer Container */
+#nsa-drawer {
+  position: fixed;
+  top: 0;
+  right: -540px;
+  width: 500px;
+  max-width: 95vw;
+  height: 100vh;
+  background: #f8fafc;
+  z-index: 999999;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--nsa-font);
+  color: var(--nsa-gray-900);
+  box-sizing: border-box;
+}
+
+#nsa-drawer * {
+  box-sizing: border-box;
+}
+
+#nsa-drawer.nsa-open {
+  right: 0;
+}
+
+/* Drawer Header */
+.nsa-drawer-header {
+  padding: 14px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--nsa-gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.nsa-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nsa-header-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--nsa-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.nsa-header-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--nsa-gray-900);
+}
+
+.nsa-header-sub {
+  font-size: 11px;
+  color: var(--nsa-gray-500);
+}
+
+.nsa-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: var(--nsa-gray-500);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nsa-close-btn:hover {
+  background: var(--nsa-gray-100);
+  color: var(--nsa-gray-900);
+}
+
+/* Target Selector Bar */
+.nsa-target-bar {
+  padding: 10px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--nsa-gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.nsa-target-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nsa-gray-700);
+}
+
+.nsa-target-chips {
+  display: flex;
+  gap: 4px;
+}
+
+.nsa-target-chip {
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--nsa-gray-300);
+  background: var(--nsa-gray-50);
+  color: var(--nsa-gray-700);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nsa-target-chip.active {
+  background: var(--nsa-primary);
+  border-color: var(--nsa-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Subject Navigation / Switcher Bar */
+.nsa-subject-nav {
+  padding: 10px 20px;
+  background: var(--nsa-gray-50);
+  border-bottom: 1px solid var(--nsa-gray-200);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.nsa-nav-btn {
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-300);
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--nsa-gray-700);
+  transition: background 0.15s ease;
+}
+
+.nsa-nav-btn:hover {
+  background: var(--nsa-gray-100);
+  border-color: var(--nsa-gray-400);
+}
+
+.nsa-subject-select {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-300);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--nsa-gray-900);
+  outline: none;
+  cursor: pointer;
+}
+
+.nsa-btn-all-courses {
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-300);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--nsa-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nsa-btn-all-courses:hover {
+  background: var(--nsa-primary-light);
+}
+
+/* Drawer Scrollable Body */
+.nsa-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ==========================================================================
+   SINGLE-SUBJECT DEEP-DIVE VIEW
+   ========================================================================== */
+.nsa-single-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Course Hero Card */
+.nsa-single-card {
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nsa-single-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nsa-single-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--nsa-gray-900);
+  line-height: 1.3;
+}
+
+.nsa-single-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--nsa-gray-500);
+  margin-top: 2px;
+}
+
+.nsa-single-pct-box {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.nsa-single-pct {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.nsa-single-sessions {
+  font-size: 11.5px;
+  color: var(--nsa-gray-500);
+  margin-top: 3px;
+}
+
+/* Progress bar */
+.nsa-track {
+  height: 8px;
+  background: var(--nsa-gray-100);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.nsa-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* Primary Leave Hero Banner */
+.nsa-leave-hero {
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nsa-leave-hero-title {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.nsa-leave-hero-desc {
+  font-size: 11.5px;
+  opacity: 0.9;
+}
+
+/* Scenario Grid (What if you take leaves?) */
+.nsa-section-card {
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nsa-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nsa-section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--nsa-gray-900);
+}
+
+.nsa-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.nsa-scenario-item {
+  background: var(--nsa-gray-50);
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nsa-scenario-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--nsa-gray-600);
+}
+
+.nsa-scenario-value-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.nsa-scenario-pct {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.nsa-scenario-diff {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Interactive Simulator for this Course */
+.nsa-single-sim-box {
+  background: var(--nsa-primary-light);
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nsa-sim-stepper-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nsa-sim-stepper-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--nsa-gray-900);
+}
+
+.nsa-stepper-ctrl {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--nsa-gray-300);
+  border-radius: 6px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.nsa-stepper-btn {
+  background: var(--nsa-gray-100);
+  border: none;
+  width: 26px;
+  height: 26px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.nsa-stepper-btn:hover {
+  background: var(--nsa-gray-200);
+}
+
+.nsa-stepper-val {
+  width: 32px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.nsa-sim-result-row {
+  border-top: 1px solid #bfdbfe;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nsa-sim-result-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--nsa-gray-900);
+}
+
+/* Badges */
+.nsa-badge-safe {
+  background: var(--nsa-safe-bg);
+  color: var(--nsa-safe);
+  border: 1px solid var(--nsa-safe-border);
+}
+
+.nsa-badge-danger {
+  background: var(--nsa-danger-bg);
+  color: var(--nsa-danger);
+  border: 1px solid var(--nsa-danger-border);
+}
+
+.nsa-type-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.nsa-type-lecture { background: #e0e7ff; color: #3730a3; }
+.nsa-type-practical { background: #fce7f3; color: #9d174d; }
+
+/* All Courses Overview Card */
+.nsa-overview-card {
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.nsa-overview-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nsa-overview-pct {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.nsa-overview-sub {
+  font-size: 11.5px;
+  color: var(--nsa-gray-500);
+}
+
+.nsa-overview-leave-pill {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: right;
+  line-height: 1.3;
+}
+
+/* Course Card in List View */
+.nsa-subject-card {
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.nsa-subject-card:hover {
+  border-color: var(--nsa-primary);
+}
+
+.nsa-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nsa-course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nsa-course-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--nsa-gray-900);
+  line-height: 1.3;
+}
+
+.nsa-course-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--nsa-gray-500);
+}
+
+.nsa-card-pct {
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+/* Filter Bar */
+.nsa-filter-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.nsa-filter-btn {
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  background: #ffffff;
+  border: 1px solid var(--nsa-gray-200);
+  color: var(--nsa-gray-700);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nsa-filter-btn.active {
+  background: var(--nsa-gray-900);
+  color: #ffffff;
+  border-color: var(--nsa-gray-900);
+}
+
+/* Drawer Footer */
+.nsa-drawer-footer {
+  padding: 12px 20px;
+  background: #ffffff;
+  border-top: 1px solid var(--nsa-gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--nsa-gray-500);
+  flex-shrink: 0;
+}
+
+.nsa-refresh-btn {
+  background: var(--nsa-gray-100);
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--nsa-gray-700);
+  cursor: pointer;
+}

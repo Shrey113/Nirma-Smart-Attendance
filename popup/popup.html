@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nirma Smart Attendance</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="nsa-popup">
+    <!-- Clean Minimal Header -->
+    <header class="nsa-header">
+      <div class="nsa-brand">
+        <span class="nsa-logo">A+</span>
+        <div>
+          <h1 class="nsa-title">Smart Attendance</h1>
+          <span class="nsa-sub">Leave &amp; Target Calculator</span>
+        </div>
+      </div>
+      <!-- Target Pills -->
+      <div class="nsa-target-toggle" id="popupTargetToggle">
+        <button class="nsa-target-btn" data-target="75">75%</button>
+        <button class="nsa-target-btn" data-target="80">80%</button>
+        <button class="nsa-target-btn active" data-target="85">85%</button>
+        <button class="nsa-target-btn" data-target="90">90%</button>
+      </div>
+    </header>
+
+    <!-- INACTIVE STATE -->
+    <section id="inactiveState" class="nsa-inactive" style="display: none;">
+      <div class="nsa-inactive-icon">🔒</div>
+      <h2>Open Attendance Page</h2>
+      <p>Please open your Nirma University attendance report:</p>
+      <div class="nsa-url-text">https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx</div>
+      <button id="btnOpenAttendancePage" class="nsa-btn nsa-btn-primary">
+        🚀 Open Attendance Page
+      </button>
+      <div id="cachedOptionBox" style="display: none; width: 100%; margin-top: 8px;">
+        <button id="btnOpenCachedDashboard" class="nsa-btn nsa-btn-secondary">
+          📊 View Saved Offline Report
+        </button>
+      </div>
+    </section>
+
+    <!-- ACTIVE STATE -->
+    <main id="activeState" class="nsa-active" style="display: none;">
+      <!-- Action Bar -->
+      <div class="nsa-action-row">
+        <button id="btnOpenFullDashboard" class="nsa-btn nsa-btn-primary">
+          🖥️ Full View &amp; Leave Simulator
+        </button>
+      </div>
+
+      <!-- Course Leave Cards -->
+      <div class="nsa-section-title">
+        <span>Courses</span>
+        <span id="subjectCountBadge" class="nsa-counter">0 courses</span>
+      </div>
+
+      <div class="nsa-course-list" id="subjectScrollList">
+        <div class="nsa-loading">Loading attendance data...</div>
+      </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="nsa-footer">
+      <span>● Live Connected</span>
+      <span>Nirma MIS</span>
+    </footer>
+  </div>
+
+  <script src="../utils/calculations.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
