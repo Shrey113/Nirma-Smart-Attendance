@@ -505,121 +505,28 @@ body {
   background: var(--gray-50);
 }
 
-/* Active Summary Bar */
-.nsa-active-summary {
-  background: #ffffff;
-  border: 1px solid var(--gray-200);
-  border-radius: 9px;
-  padding: 8px 12px;
+/* Section Title */
+.nsa-section-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-}
-
-.nsa-summary-metric {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.nsa-summary-val {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--gray-900);
-}
-
-.nsa-summary-lbl {
-  font-size: 9.5px;
-  color: var(--gray-500);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  margin-top: 1px;
-}
-
-.nsa-summary-divider {
-  width: 1px;
-  height: 22px;
-  background: var(--gray-200);
-}
-
-.nsa-summary-btn {
-  background: var(--primary);
-  color: #ffffff;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  line-height: 1;
-  transition: all 0.15s ease;
-  margin-left: auto;
-}
-
-.nsa-summary-btn:hover {
-  background: var(--primary-hover);
-}
-
-/* Quick Filter Row */
-.nsa-filter-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-}
-
-.nsa-filter-btn {
-  border: 1px solid var(--gray-200);
-  background: #ffffff;
-  color: var(--gray-600);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 10.5px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-  transition: all 0.15s ease;
-}
-
-.nsa-filter-btn:hover {
-  background: var(--gray-100);
-  color: var(--gray-900);
-}
-
-.nsa-filter-btn.active {
-  background: var(--primary);
-  color: #ffffff;
-  border-color: var(--primary);
-}
-
-.nsa-filter-badge {
-  background: rgba(0, 0, 0, 0.08);
-  padding: 0 4px;
-  border-radius: 4px;
-  font-size: 9.5px;
+  font-size: 11.5px;
   font-weight: 700;
+  color: var(--gray-700);
+  margin-top: 2px;
 }
 
-.nsa-filter-btn.active .nsa-filter-badge {
-  background: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+.nsa-counter {
+  font-size: 10.5px;
+  color: var(--gray-400);
+  font-weight: 500;
 }
 
-/* Compact Course Cards List */
+/* Course Cards List */
 .nsa-course-list {
   flex: 1;
   overflow-y: auto;
-  max-height: 335px;
+  max-height: 350px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -630,59 +537,69 @@ body {
   background: #ffffff;
   border: 1px solid var(--gray-200);
   border-radius: 8px;
-  padding: 7px 10px 6px;
+  padding: 8px 12px;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   transition: all 0.15s ease;
-  overflow: hidden;
+  cursor: pointer;
 }
 
 .nsa-card:hover {
   border-color: var(--primary);
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.1);
+  background: var(--gray-50);
   transform: translateY(-1px);
-}
-
-.nsa-card-body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
 .nsa-card-left {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   overflow: hidden;
   flex: 1;
 }
 
-.nsa-card-title-line {
+.nsa-card-name-row {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   overflow: hidden;
 }
 
 .nsa-card-name {
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--gray-900);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+.nsa-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--gray-500);
+  line-height: 1;
+}
+
+.nsa-meta-dot {
+  font-size: 9px;
+  color: var(--gray-300);
 }
 
 .nsa-badge-type {
-  font-size: 8.5px;
+  font-size: 9px;
   font-weight: 700;
-  padding: 1px 4px;
+  padding: 1px 5px;
   border-radius: 3px;
   text-transform: uppercase;
   flex-shrink: 0;
+  line-height: 1.2;
 }
 
 .nsa-type-lec {
@@ -695,68 +612,49 @@ body {
   color: #9d174d;
 }
 
-.nsa-card-meta-line {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  color: var(--gray-500);
-}
-
-.nsa-meta-dot {
-  color: var(--gray-300);
-}
-
 .nsa-card-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 2px;
+  gap: 3px;
   flex-shrink: 0;
 }
 
 .nsa-card-pct {
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 800;
   line-height: 1.1;
+  letter-spacing: -0.2px;
 }
 
-.nsa-status-pill {
-  font-size: 9.5px;
-  font-weight: 700;
-  padding: 1px 6px;
+.nsa-card-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
   border-radius: 4px;
-  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
-.nsa-status-pill.safe {
+.nsa-badge-safe {
   background: var(--safe-bg);
   color: var(--safe);
+  border: 1px solid var(--safe-border);
 }
 
-.nsa-status-pill.danger {
-  background: var(--danger-bg);
-  color: var(--danger);
-}
-
-.nsa-status-pill.warning {
+.nsa-badge-warning {
   background: var(--warning-bg);
   color: var(--warning);
+  border: 1px solid var(--warning-border);
 }
 
-/* Micro Progress Bar */
-.nsa-card-bar {
-  width: 100%;
-  height: 2.5px;
-  background: var(--gray-100);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.nsa-card-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.3s ease;
+.nsa-badge-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
 }
 
 .nsa-loading {

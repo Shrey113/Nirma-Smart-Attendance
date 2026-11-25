@@ -181,123 +181,75 @@ document.addEventListener('DOMContentLoaded', async () => {
     `;
   }
 
-  let currentRecords = [];
-  let activePopupFilter = 'all';
-
-  const filterButtons = document.querySelectorAll('.nsa-filter-btn');
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activePopupFilter = btn.getAttribute('data-filter') || 'all';
-      renderCourseCards();
-    });
-  });
-
   function renderPopupView(records) {
     if (!records || records.length === 0) {
       subjectScrollList.innerHTML = `<div class="nsa-loading">No courses detected.</div>`;
       return;
     }
 
-    currentRecords = records;
     const calc = window.AttendanceCalculations;
-
-    // Calculate Summary Metrics
-    let totalSafe = 0;
-    let lowCount = 0;
-
-    records.forEach(rec => {
-      const p = Number(rec.present) || 0;
-      const t = Number(rec.total) || 0;
-      const pct = calc ? calc.calculatePercentage(p, t) : Math.round((p / (t || 1)) * 100);
-      if (pct < currentTarget) {
-        lowCount++;
-      } else {
-        totalSafe += (calc ? calc.calculateSafeBunks(p, t, currentTarget) : 0);
-      }
-    });
-
-    const safeLeavesEl = document.getElementById('popupSafeLeavesVal');
-    const lowCountEl = document.getElementById('popupLowCountVal');
-    const filterAllEl = document.getElementById('filterCountAll');
-    const filterLowEl = document.getElementById('filterCountLow');
-
-    if (safeLeavesEl) safeLeavesEl.textContent = String(totalSafe);
-    if (lowCountEl) {
-      lowCountEl.textContent = String(lowCount);
-      lowCountEl.style.color = lowCount > 0 ? '#dc2626' : '#059669';
-    }
-    if (filterAllEl) filterAllEl.textContent = String(records.length);
-    if (filterLowEl) filterLowEl.textContent = String(lowCount);
-
-    renderCourseCards();
-  }
-
-  function renderCourseCards() {
-    if (!currentRecords || currentRecords.length === 0) {
-      subjectScrollList.innerHTML = `<div class="nsa-loading">No courses found.</div>`;
-      return;
-    }
-
-    const calc = window.AttendanceCalculations;
-
-    const filtered = currentRecords.filter(rec => {
-      const p = Number(rec.present) || 0;
-      const t = Number(rec.total) || 0;
-      const pct = calc ? calc.calculatePercentage(p, t) : Math.round((p / (t || 1)) * 100);
-
-      if (activePopupFilter === 'low') return pct < currentTarget;
-      if (activePopupFilter === 'lec') return rec.loadType === 'Lecture';
-      if (activePopupFilter === 'prac') return rec.loadType === 'Practical';
-      return true;
-    });
-
-    if (filtered.length === 0) {
-      subjectScrollList.innerHTML = `<div class="nsa-loading">No courses match this filter.</div>`;
-      return;
-    }
+    document.getElementById('subjectCountBadge').textContent = `${records.length} courses`;
 
     let html = '';
-    filtered.forEach(rec => {
+    records.forEach(rec => {
       const p = Number(rec.present) || 0;
       const t = Number(rec.total) || 0;
       const pct = calc ? calc.calculatePercentage(p, t) : Math.round((p / (t || 1)) * 100);
       const isBelow = pct < currentTarget;
       const safeLeaves = calc ? calc.calculateSafeBunks(p, t, currentTarget) : 0;
       const needClasses = calc ? calc.calculateRequiredClasses(p, t, currentTarget) : 0;
+
+      // Projected if student takes leaves:
+      const if1Leave = calc ? calc.calculatePercentage(p, t + 1) : 0;
+      const if2Leaves = calc ? calc.calculatePercentage(p, t + 2) : 0;
+      const if3Leaves = calc ? calc.calculatePercentage(p, t + 3) : 0;
+
+      // Projected if student attends:
+      const ifAttend1 = calc ? calc.calculatePercentage(p + 1, t + 1) : 0;
+      const ifAttend2 = calc ? calc.calculatePercentage(p + 2, t + 2) : 0;
+
       const typeBadge = rec.loadType === 'Practical' ? 'nsa-type-prac' : 'nsa-type-lec';
-      const statusClass = isBelow ? 'danger' : (safeLeaves > 0 ? 'safe' : 'warning');
-      const statusText = isBelow ? `Need +${needClasses}` : (safeLeaves > 0 ? `${safeLeaves} safe` : `0 leaves`);
+
+      // Professional, clean status badge
+      let statusTagHtml = '';
+      if (isBelow) {
+        statusTagHtml = `
+          <span class="nsa-card-badge nsa-badge-danger">
+            <span class="nsa-dot nsa-dot-danger"></span>Need ${needClasses} class${needClasses > 1 ? 'es' : ''}
+          </span>
+        `;
+      } else if (safeLeaves > 0) {
+        statusTagHtml = `
+          <span class="nsa-card-badge nsa-badge-safe">
+            <span class="nsa-dot nsa-dot-safe"></span>${safeLeaves} leave${safeLeaves > 1 ? 's' : ''} safe
+          </span>
+        `;
+      } else {
+        statusTagHtml = `
+          <span class="nsa-card-badge nsa-badge-warning">
+            <span class="nsa-dot nsa-dot-warning"></span>0 leaves safe
+          </span>
+        `;
+      }
 
       html += `
-        <div class="nsa-card" data-subject-id="${rec.id || ''}" title="Click to open full simulation drawer">
-          <div class="nsa-card-body">
-            <div class="nsa-card-left">
-              <div class="nsa-card-title-line">
-                <span class="nsa-card-name">${rec.courseName}</span>
-                <span class="nsa-badge-type ${typeBadge}">${rec.loadType === 'Practical' ? 'PRAC' : 'LEC'}</span>
-              </div>
-              <div class="nsa-card-meta-line">
-                <span class="nsa-card-code">${rec.courseCode || ''}</span>
-                <span class="nsa-meta-dot">•</span>
-                <span class="nsa-card-sessions">${p}/${t} attended</span>
-              </div>
+        <div class="nsa-card" data-subject-id="${rec.id || ''}" title="Click to view detailed leave simulator for ${rec.courseName}">
+          <div class="nsa-card-left">
+            <div class="nsa-card-name-row">
+              <span class="nsa-card-name" title="${rec.courseName}">${rec.courseName}</span>
+              <span class="nsa-badge-type ${typeBadge}">${rec.loadType === 'Practical' ? 'Lab' : 'Lec'}</span>
             </div>
-
-            <div class="nsa-card-right">
-              <span class="nsa-card-pct" style="color: ${isBelow ? '#dc2626' : '#059669'};">
-                ${pct}%
-              </span>
-              <span class="nsa-status-pill ${statusClass}">
-                ${statusText}
-              </span>
+            <div class="nsa-card-meta">
+              <span>${rec.courseCode || ''}</span>
+              <span class="nsa-meta-dot">•</span>
+              <span>${p}/${t} sessions</span>
             </div>
           </div>
-
-          <!-- Micro Progress Bar -->
-          <div class="nsa-card-bar">
-            <div class="nsa-card-bar-fill" style="width: ${Math.min(100, pct)}%; background: ${isBelow ? '#ef4444' : '#10b981'};"></div>
+          <div class="nsa-card-right">
+            <span class="nsa-card-pct" style="color: ${isBelow ? 'var(--danger)' : 'var(--safe)'};">
+              ${pct}%
+            </span>
+            ${statusTagHtml}
           </div>
         </div>
       `;

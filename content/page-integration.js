@@ -28,6 +28,7 @@
       this.simState = {}; // { [subjectId]: { miss: 0, attend: 0 } }
       this.isDrawerOpen = false;
       this.drawerRenderedOnce = false;
+      this.isFloatingPopupOpen = false;
       this.init();
     }
 
@@ -66,7 +67,6 @@
     }
 
     injectDOMContainers() {
-      if (window.innerWidth < 400 && window !== window.top) return;
       if (document.getElementById('nsa-root-wrapper')) return;
 
       const wrapper = document.createElement('div');
@@ -136,6 +136,77 @@
             </button>
           </div>
         </div>
+
+        <!-- Floating Trigger Pill (Bottom-Right) -->
+        <button id="nsa-floating-trigger" class="nsa-floating-pill" type="button" title="Smart Attendance - Leave &amp; Target Calculator">
+          <img src="${chrome.runtime.getURL('assets/icons/icon48.png')}" class="nsa-floating-logo" alt="Logo">
+          <div class="nsa-floating-text">
+            <span class="nsa-floating-title">Smart Attendance</span>
+            <span class="nsa-floating-sub">Leave &amp; Target Calculator</span>
+          </div>
+        </button>
+
+        <!-- Floating Popup Backdrop Overlay -->
+        <div id="nsa-floating-overlay" class="nsa-floating-overlay"></div>
+
+        <!-- Floating Popup Container (renders extension popup UI) -->
+        <div id="nsa-floating-popup" class="nsa-floating-popup-box">
+          <!-- Header -->
+          <header class="nsa-fpopup-header">
+            <div class="nsa-fpopup-brand">
+              <img src="${chrome.runtime.getURL('assets/icons/icon48.png')}" class="nsa-fpopup-logo" alt="Logo">
+              <div>
+                <h4 class="nsa-fpopup-title">Smart Attendance</h4>
+                <span class="nsa-fpopup-sub">Leave &amp; Target Calculator</span>
+              </div>
+            </div>
+            <div class="nsa-fpopup-header-right">
+              <div class="nsa-target-toggle" id="nsaFloatingTargetToggle">
+                <button class="nsa-target-btn" data-target="75">75%</button>
+                <button class="nsa-target-btn" data-target="80">80%</button>
+                <button class="nsa-target-btn active" data-target="85">85%</button>
+                <button class="nsa-target-btn" data-target="90">90%</button>
+              </div>
+              <button class="nsa-close-btn" id="nsaCloseFloatingPopup" title="Close">&times;</button>
+            </div>
+          </header>
+
+          <!-- Action Row: Full View & Simulator -->
+          <div class="nsa-fpopup-action-row">
+            <button id="nsaBtnFloatingFullView" class="nsa-btn nsa-btn-primary">
+              <svg class="nsa-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              Full View &amp; Leave Simulator
+            </button>
+          </div>
+
+          <!-- Section Title -->
+          <div class="nsa-fpopup-section-title">
+            <span>Courses</span>
+            <span id="nsaFloatingCourseCount" class="nsa-counter">0 courses</span>
+          </div>
+
+          <!-- Course List -->
+          <div class="nsa-fpopup-course-list" id="nsaFloatingCourseList">
+            <div class="nsa-loading">Loading courses...</div>
+          </div>
+
+          <!-- Footer -->
+          <footer class="nsa-fpopup-footer">
+            <div class="unified-footer-pill">
+              <span class="footer-made-by-text">Made with <svg viewBox="0 0 24 24" width="12" height="12" fill="#ef4444" stroke="#ef4444" style="vertical-align: -1px; display: inline-block;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by</span>
+              <a href="https://github.com/shrey113" target="_blank" rel="noopener" class="github-log-badge" title="GitHub: shrey113">
+                <span class="github-log-icon-circle">
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </span>
+                <span class="github-log-text">shrey113</span>
+              </a>
+            </div>
+            <button id="nsaBtnFloatingRefresh" class="nsa-refresh-btn" title="Refresh Attendance Data">
+              <svg class="nsa-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              Refresh
+            </button>
+          </footer>
+        </div>
       `;
 
       document.body.appendChild(wrapper);
@@ -185,15 +256,82 @@
       const targetChips = document.querySelectorAll('.nsa-target-chip');
       targetChips.forEach(chip => {
         chip.addEventListener('click', () => {
-          targetChips.forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
           const newTarget = Number(chip.getAttribute('data-target'));
           if (root.attendanceCalculator) {
             root.attendanceCalculator.setTargetPercentage(newTarget);
           }
+          this.syncTargetUI(newTarget);
           this.renderDrawerContent();
+          if (this.isFloatingPopupOpen) {
+            this.renderFloatingPopupContent();
+          }
         });
       });
+
+      // Floating Popup Target Toggle
+      const fTargetButtons = document.querySelectorAll('#nsaFloatingTargetToggle .nsa-target-btn');
+      fTargetButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const newTarget = Number(btn.getAttribute('data-target'));
+          if (root.attendanceCalculator) {
+            root.attendanceCalculator.setTargetPercentage(newTarget);
+          }
+          this.syncTargetUI(newTarget);
+          this.renderFloatingPopupContent();
+          if (this.isDrawerOpen) {
+            this.renderDrawerContent();
+          }
+        });
+      });
+
+      // Floating Trigger Pill Click -> Toggle Floating Popup
+      const floatingTrigger = document.getElementById('nsa-floating-trigger');
+      if (floatingTrigger) {
+        floatingTrigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.toggleFloatingPopup();
+        });
+      }
+
+      // Close Floating Popup (Overlay & Close button)
+      const floatingOverlay = document.getElementById('nsa-floating-overlay');
+      if (floatingOverlay) {
+        floatingOverlay.addEventListener('click', () => this.closeFloatingPopup());
+      }
+      const closeFloatingPopupBtn = document.getElementById('nsaCloseFloatingPopup');
+      if (closeFloatingPopupBtn) {
+        closeFloatingPopupBtn.addEventListener('click', () => this.closeFloatingPopup());
+      }
+
+      // Floating Popup: Open Full View Dashboard
+      const btnFloatingFull = document.getElementById('nsaBtnFloatingFullView');
+      if (btnFloatingFull) {
+        btnFloatingFull.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+            chrome.runtime.sendMessage({ action: 'OPEN_DASHBOARD_TAB' });
+          } else {
+            window.open(chrome.runtime.getURL('dashboard/dashboard.html'), '_blank');
+          }
+        });
+      }
+
+      // Floating Popup: Refresh Data
+      const btnFloatingRefresh = document.getElementById('nsaBtnFloatingRefresh');
+      if (btnFloatingRefresh) {
+        btnFloatingRefresh.addEventListener('click', () => {
+          if (root.attendanceDetector) {
+            root.attendanceDetector.lastDataSignature = '';
+            const recs = root.attendanceDetector.extractAttendance();
+            if (recs && recs.length > 0) {
+              this.handleDataUpdated(recs);
+              this.renderFloatingPopupContent();
+            }
+          }
+        });
+      }
 
       // Subject Dropdown
       document.getElementById('nsa-subject-select').addEventListener('change', (e) => {
@@ -245,6 +383,9 @@
     }
 
     openDrawer(focusSubjectId = null) {
+      if (this.isFloatingPopupOpen) {
+        this.closeFloatingPopup();
+      }
       const drawer = document.getElementById('nsa-drawer');
       const overlay = document.getElementById('nsa-drawer-overlay');
       if (drawer && overlay) {
@@ -276,9 +417,148 @@
       }
     }
 
+    openFloatingPopup() {
+      const popup = document.getElementById('nsa-floating-popup');
+      const overlay = document.getElementById('nsa-floating-overlay');
+      if (popup && overlay) {
+        popup.classList.add('nsa-open');
+        overlay.classList.add('nsa-open');
+        this.isFloatingPopupOpen = true;
+        const target = root.attendanceCalculator ? root.attendanceCalculator.targetPercentage : 85;
+        this.syncTargetUI(target);
+        this.renderFloatingPopupContent();
+      }
+    }
+
+    closeFloatingPopup() {
+      const popup = document.getElementById('nsa-floating-popup');
+      const overlay = document.getElementById('nsa-floating-overlay');
+      if (popup && overlay) {
+        popup.classList.remove('nsa-open');
+        overlay.classList.remove('nsa-open');
+        this.isFloatingPopupOpen = false;
+      }
+    }
+
+    toggleFloatingPopup() {
+      if (this.isFloatingPopupOpen) {
+        this.closeFloatingPopup();
+      } else {
+        this.openFloatingPopup();
+      }
+    }
+
+    syncTargetUI(target) {
+      document.querySelectorAll('.nsa-target-chip').forEach(c => {
+        if (Number(c.getAttribute('data-target')) === target) c.classList.add('active');
+        else c.classList.remove('active');
+      });
+      document.querySelectorAll('#nsaFloatingTargetToggle .nsa-target-btn').forEach(btn => {
+        if (Number(btn.getAttribute('data-target')) === target) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+    }
+
+    renderFloatingPopupContent() {
+      const list = document.getElementById('nsaFloatingCourseList');
+      const countBadge = document.getElementById('nsaFloatingCourseCount');
+      if (!list) return;
+
+      const records = root.attendanceDetector ? root.attendanceDetector.records : [];
+      if (!records || records.length === 0) {
+        list.innerHTML = `
+          <div class="nsa-loading">
+            No courses detected yet.<br>
+            <span style="font-size:11px; color:#64748b; margin-top:4px; display:inline-block;">
+              Please ensure attendance report has loaded.
+            </span>
+          </div>
+        `;
+        if (countBadge) countBadge.textContent = '0 courses';
+        return;
+      }
+
+      if (countBadge) countBadge.textContent = `${records.length} courses`;
+
+      const target = root.attendanceCalculator ? root.attendanceCalculator.targetPercentage : 85;
+      const calc = root.AttendanceCalculations;
+
+      let html = '';
+      records.forEach(rec => {
+        const p = Number(rec.present) || 0;
+        const t = Number(rec.total) || 0;
+        const pct = calc ? calc.calculatePercentage(p, t) : Math.round((p / (t || 1)) * 100);
+        const isBelow = pct < target;
+        const safeLeaves = calc ? calc.calculateSafeBunks(p, t, target) : 0;
+        const needClasses = calc ? calc.calculateRequiredClasses(p, t, target) : 0;
+
+        let statusTagHtml = '';
+        if (isBelow) {
+          statusTagHtml = `
+            <span class="nsa-card-badge nsa-badge-danger">
+              <span class="nsa-dot nsa-dot-danger"></span>Need ${needClasses} class${needClasses > 1 ? 'es' : ''}
+            </span>
+          `;
+        } else if (safeLeaves > 0) {
+          statusTagHtml = `
+            <span class="nsa-card-badge nsa-badge-safe">
+              <span class="nsa-dot nsa-dot-safe"></span>${safeLeaves} leave${safeLeaves > 1 ? 's' : ''} safe
+            </span>
+          `;
+        } else {
+          statusTagHtml = `
+            <span class="nsa-card-badge nsa-badge-warning">
+              <span class="nsa-dot nsa-dot-warning"></span>0 leaves safe
+            </span>
+          `;
+        }
+
+        const typeBadge = rec.loadType === 'Practical' ? 'nsa-type-prac' : 'nsa-type-lec';
+
+        html += `
+          <div class="nsa-card" data-fsubject-id="${rec.id || ''}" title="Click to view detailed leave simulator for ${rec.courseName}">
+            <div class="nsa-card-left">
+              <div class="nsa-card-name-row">
+                <span class="nsa-card-name" title="${rec.courseName}">${rec.courseName}</span>
+                <span class="nsa-badge-type ${typeBadge}">${rec.loadType === 'Practical' ? 'Lab' : 'Lec'}</span>
+              </div>
+              <div class="nsa-card-meta">
+                <span>${rec.courseCode || ''}</span>
+                <span class="nsa-meta-dot">•</span>
+                <span>${p}/${t} sessions</span>
+              </div>
+            </div>
+            <div class="nsa-card-right">
+              <span class="nsa-card-pct" style="color: ${isBelow ? '#dc2626' : '#059669'};">
+                ${pct}%
+              </span>
+              ${statusTagHtml}
+            </div>
+          </div>
+        `;
+      });
+
+      list.innerHTML = html;
+
+      // Clicking any course card opens the deep-dive drawer for that course
+      const cards = list.querySelectorAll('.nsa-card');
+      cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const subjectId = card.getAttribute('data-fsubject-id');
+          this.closeFloatingPopup();
+          this.openDrawer(subjectId);
+        });
+      });
+    }
+
     handleDataUpdated(records) {
       this.injectInlineTableButtons(records);
       this.updateSubjectDropdown(records);
+      if (this.isFloatingPopupOpen) {
+        this.renderFloatingPopupContent();
+      }
       // ONLY re-render drawer if drawer is open AND not yet rendered
       if (this.isDrawerOpen && !this.drawerRenderedOnce) {
         this.drawerRenderedOnce = true;

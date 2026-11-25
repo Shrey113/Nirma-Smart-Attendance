@@ -94,32 +94,20 @@
 
     <!-- ACTIVE STATE -->
     <main id="activeState" class="nsa-active" style="display: none;">
-      <!-- Compact Summary Bar -->
-      <div class="nsa-active-summary">
-        <div class="nsa-summary-metric">
-          <span class="nsa-summary-val" id="popupSafeLeavesVal" style="color: #059669;">0</span>
-          <span class="nsa-summary-lbl">Safe Leaves</span>
-        </div>
-        <div class="nsa-summary-divider"></div>
-        <div class="nsa-summary-metric">
-          <span class="nsa-summary-val" id="popupLowCountVal">0</span>
-          <span class="nsa-summary-lbl">Below Target</span>
-        </div>
-        <button id="btnOpenFullDashboard" class="nsa-summary-btn" title="Open Full Leave Simulator">
-          <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          Simulator
+      <!-- Action Bar -->
+      <div class="nsa-action-row">
+        <button id="btnOpenFullDashboard" class="nsa-btn nsa-btn-primary">
+          <svg class="nsa-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          Full View &amp; Leave Simulator
         </button>
       </div>
 
-      <!-- Quick Filter Pills -->
-      <div class="nsa-filter-row" id="popupFilterRow">
-        <button class="nsa-filter-btn active" data-filter="all">All <span id="filterCountAll" class="nsa-filter-badge">0</span></button>
-        <button class="nsa-filter-btn" data-filter="low">Below Target <span id="filterCountLow" class="nsa-filter-badge">0</span></button>
-        <button class="nsa-filter-btn" data-filter="lec">Lectures</button>
-        <button class="nsa-filter-btn" data-filter="prac">Practicals</button>
+      <!-- Course Leave Cards -->
+      <div class="nsa-section-title">
+        <span>Courses</span>
+        <span id="subjectCountBadge" class="nsa-counter">0 courses</span>
       </div>
 
-      <!-- Course Cards List -->
       <div class="nsa-course-list" id="subjectScrollList">
         <div class="nsa-loading">Loading attendance data...</div>
       </div>
