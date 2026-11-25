@@ -240,6 +240,37 @@ body {
 .text-danger { color: var(--danger) !important; }
 .text-success { color: var(--safe) !important; }
 
+/* UI Icons and Status Dots */
+.nsa-svg {
+  display: inline-block;
+  vertical-align: -2px;
+  flex-shrink: 0;
+}
+
+.nsa-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+
+.nsa-dot-safe {
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.nsa-dot-danger {
+  background: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.nsa-dot-warning {
+  background: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
 /* Status Badges */
 .nsa-badge {
   padding: 3px 10px;
@@ -486,7 +517,7 @@ body {
 
 /* Print Styling */
 @media print {
-  .nsa-topbar-actions, .nsa-batch-sim-section, .nsa-table-toolbar, .nsa-stepper-inline {
+  .nsa-topbar-actions, .nsa-table-toolbar, .nsa-stepper-inline {
     display: none !important;
   }
   body { background: #ffffff; }

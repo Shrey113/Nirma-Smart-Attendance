@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <!-- The Core Answer: How many leaves can I take? -->
           <div class="nsa-leave-pill ${isBelow ? 'nsa-pill-danger' : 'nsa-pill-safe'}">
             <span>
-              ${isBelow ? `🔴 Need to attend ${needClasses} more` : (safeLeaves > 0 ? `🟢 ${safeLeaves} Leave${safeLeaves > 1 ? 's' : ''} Allowed` : `🟡 0 Leaves Allowed (Attend all)`)}
+              ${isBelow ? `<span class="nsa-dot nsa-dot-danger"></span>Need to attend ${needClasses} more` : (safeLeaves > 0 ? `<span class="nsa-dot nsa-dot-safe"></span>${safeLeaves} Leave${safeLeaves > 1 ? 's' : ''} Allowed` : `<span class="nsa-dot nsa-dot-warning"></span>0 Leaves Allowed (Attend all)`)}
             </span>
             <span class="nsa-pill-sessions">${p}/${t} sessions</span>
           </div>

@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const btnNavPortal = document.getElementById('btnNavPortal');
   const courseSearchInput = document.getElementById('courseSearchInput');
   const attendanceTableBody = document.getElementById('attendanceTableBody');
-  const btnResetBatch = document.getElementById('btnResetBatch');
 
   let currentTarget = 85;
   let records = [];
@@ -88,27 +87,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   courseSearchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.toLowerCase().trim();
     renderTableRows();
-  });
-
-  // Batch Simulators
-  document.querySelectorAll('[data-batch]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = btn.getAttribute('data-batch');
-      records.forEach(r => {
-        const id = r.id || `${r.courseCode}_${r.loadType}`;
-        rowSimulations[id] = rowSimulations[id] || { miss: 0, attend: 0 };
-        if (mode === 'miss-1') rowSimulations[id].miss += 1;
-        if (mode === 'miss-2') rowSimulations[id].miss += 2;
-        if (mode === 'att-3') rowSimulations[id].attend += 3;
-        if (mode === 'att-5') rowSimulations[id].attend += 5;
-      });
-      renderDashboard();
-    });
-  });
-
-  btnResetBatch.addEventListener('click', () => {
-    rowSimulations = {};
-    renderDashboard();
   });
 
   function renderDashboard() {
@@ -238,11 +216,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           <td>
             ${basePct >= currentTarget ? `
               <span class="nsa-badge nsa-badge-safe" title="Can miss ${safeBunks} classes">
-                🟢 ${safeBunks} Leave${safeBunks !== 1 ? 's' : ''} Safe
+                <span class="nsa-dot nsa-dot-safe"></span>${safeBunks} Leave${safeBunks !== 1 ? 's' : ''} Safe
               </span>
             ` : `
               <span class="nsa-badge nsa-badge-danger" title="Attend ${reqClasses} consecutive classes">
-                🔴 Need +${reqClasses}
+                <span class="nsa-dot nsa-dot-danger"></span>Need +${reqClasses}
               </span>
             `}
           </td>

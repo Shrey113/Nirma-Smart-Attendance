@@ -102,7 +102,10 @@
             <button class="nsa-nav-btn" id="nsa-btn-prev" title="Previous Subject">&lt;</button>
             <select class="nsa-subject-select" id="nsa-subject-select"></select>
             <button class="nsa-nav-btn" id="nsa-btn-next" title="Next Subject">&gt;</button>
-            <button class="nsa-btn-all-courses" id="nsa-btn-toggle-view">📋 All Courses</button>
+            <button class="nsa-btn-all-courses" id="nsa-btn-toggle-view">
+              <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              All Courses
+            </button>
           </div>
 
           <!-- Drawer Body Content -->
@@ -115,7 +118,10 @@
           <!-- Footer -->
           <div class="nsa-drawer-footer">
             <span>Synchronized with portal</span>
-            <button class="nsa-refresh-btn" id="nsa-refresh-btn">🔄 Refresh Data</button>
+            <button class="nsa-refresh-btn" id="nsa-refresh-btn">
+              <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              Refresh Data
+            </button>
           </div>
         </div>
       `;
@@ -297,7 +303,10 @@
         }
 
         btn.setAttribute('data-subject-id', rec.id);
-        btn.innerHTML = 'ℹ️ Info';
+        btn.innerHTML = `
+          <svg class="nsa-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Info
+        `;
         btn.title = `View leave calculations for ${rec.courseName} (${rec.loadType})`;
       });
     }
@@ -313,7 +322,9 @@
       if (!records || records.length === 0) {
         content.innerHTML = `
           <div style="text-align: center; padding: 40px; color: #64748b;">
-            <div style="font-size: 28px; margin-bottom: 8px;">⚠️</div>
+            <div style="margin-bottom: 10px;">
+              <svg class="nsa-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
             <div style="font-weight: 700; color: #0f172a;">Attendance table not found</div>
             <div style="font-size: 12px; margin-top: 4px;">Make sure your attendance report has finished loading.</div>
           </div>
@@ -343,7 +354,10 @@
         // SINGLE-SUBJECT DEEP-DIVE VIEW
         // =====================================================================
         if (navBar) navBar.style.display = 'flex';
-        if (toggleBtn) toggleBtn.textContent = '📋 All Courses';
+        if (toggleBtn) toggleBtn.innerHTML = `
+          <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          All Courses
+        `;
         if (drawerSub) drawerSub.textContent = 'Single Course Detailed Report';
 
         const rec = records.find(r => r.id === this.selectedSubjectId) || records[0];
@@ -413,7 +427,7 @@
             <!-- 2. The Main Answer: Safe Leave Status Banner -->
             <div class="nsa-leave-hero ${isBelow ? 'nsa-badge-danger' : 'nsa-badge-safe'}">
               <div class="nsa-leave-hero-title">
-                ${isBelow ? `🔴 Deficit: Attend ${needClasses} More Classes` : (safeLeaves > 0 ? `🟢 ${safeLeaves} Leaves Allowed` : `🟡 0 Leaves Allowed (Attend All)`)}
+                ${isBelow ? `<span class="nsa-dot nsa-dot-danger"></span>Deficit: Attend ${needClasses} More Classes` : (safeLeaves > 0 ? `<span class="nsa-dot nsa-dot-safe"></span>${safeLeaves} Leaves Allowed` : `<span class="nsa-dot nsa-dot-warning"></span>0 Leaves Allowed (Attend All)`)}
               </div>
               <div class="nsa-leave-hero-desc">
                 ${isBelow ? `
@@ -429,7 +443,10 @@
             <!-- 3. What Happens If You Take Leaves? (Detailed Grid) -->
             <div class="nsa-section-card">
               <div class="nsa-section-head">
-                <span class="nsa-section-label">📉 If You Take Leaves (Scenario Analysis)</span>
+                <span class="nsa-section-label">
+                  <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                  If You Take Leaves (Scenario Analysis)
+                </span>
               </div>
               <div class="nsa-scenario-grid">
                 ${leaveScenarios.map(sc => `
@@ -447,7 +464,10 @@
             <!-- 4. What Happens If You Attend Classes? -->
             <div class="nsa-section-card">
               <div class="nsa-section-head">
-                <span class="nsa-section-label">📈 If You Attend Classes (Catch-Up Analysis)</span>
+                <span class="nsa-section-label">
+                  <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                  If You Attend Classes (Catch-Up Analysis)
+                </span>
               </div>
               <div class="nsa-scenario-grid">
                 ${attendScenarios.map(sc => `
@@ -498,7 +518,10 @@
         // =====================================================================
         // ALL COURSES LIST VIEW
         // =====================================================================
-        if (toggleBtn) toggleBtn.textContent = '🔍 Focus One Subject';
+        if (toggleBtn) toggleBtn.innerHTML = `
+          <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+          Focus Course
+        `;
         if (drawerSub) drawerSub.textContent = 'All Courses Summary';
 
         const agg = calc.calculateAggregates(records, target);
@@ -554,7 +577,7 @@
                     </span>
                   </div>
                   <div class="nsa-leave-hero ${isBelow ? 'nsa-badge-danger' : 'nsa-badge-safe'}" style="padding: 6px 10px; font-size: 12px;">
-                    ${isBelow ? `🔴 Need to attend ${needClasses} more` : (safeLeaves > 0 ? `🟢 ${safeLeaves} Leaves Allowed` : `🟡 0 Leaves Allowed`)}
+                    ${isBelow ? `<span class="nsa-dot nsa-dot-danger"></span>Need to attend ${needClasses} more` : (safeLeaves > 0 ? `<span class="nsa-dot nsa-dot-safe"></span>${safeLeaves} Leaves Allowed` : `<span class="nsa-dot nsa-dot-warning"></span>0 Leaves Allowed`)}
                   </div>
                 </div>
               `;
