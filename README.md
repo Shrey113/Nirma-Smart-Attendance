@@ -1,48 +1,32 @@
 # Nirma Smart Attendance
 
-A clean, client-side attendance intelligence calculator and leave simulator for Nirma University Student Portal.
+Client-side attendance calculator and what-if leave simulator for Nirma University Student Portal.
 
 ---
 
-## 1. How to Use It
+## 1. How to Use
 
-1. **Install the Extension:**
-   - Open your browser (Chrome, Brave, Edge) and go to `chrome://extensions/`.
-   - Turn on **Developer mode** (toggle in the top-right corner).
-   - Click **Load unpacked** and select this folder (`Nirma Smart Attendance`).
-
-2. **Open Your Attendance Report:**
-   - Navigate to the Nirma University attendance portal:
-     `https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx`
-   - Log in and open your student attendance report.
-
-3. **Calculate Leaves & Simulate:**
-   - Click the **Info** button added next to any course row in the table to open the course deep-dive drawer.
-   - Toggle target thresholds (**75%**, **80%**, **85%**, **90%**) to instantly see how many classes you can safely miss or need to attend.
-   - Use the **+** and **-** steppers in the Custom Leave Simulator to project upcoming leaves with zero lag.
-   - Click the extension icon in the toolbar or click **Full View** for the full analytics dashboard.
+1. **Install:** Open `chrome://extensions/` → Enable **Developer mode** → Click **Load unpacked** and select this folder.
+2. **Open Portal:** Go to [Nirma Student Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) and log in.
+3. **Use Features:** Click any **Info** button in the attendance table for single-subject analysis and live leave simulations, or use the toolbar popup and **Full View** dashboard.
 
 ---
 
 ## 2. Preview
 
-### Single Course Deep-Dive Drawer
-![Single Course Detailed Report](data/right_panle.png)
+| Course Deep-Dive Drawer | Extension Popup |
+| :---: | :---: |
+| <img src="data/right_panle.png" width="380" alt="Course Deep-Dive Drawer" /> | <img src="data/flotting_pop.png" width="380" alt="Extension Toolbar Popup" /> |
 
-### Extension Toolbar Popup
-![Extension Popup](data/flotting_pop.png)
-
-### Full Attendance Intelligence Dashboard
-![Full Screen Dashboard](data/full_screen.png)
-
-### In-Page Table Integration
-![Inline Table Info](data/info.png)
+| Full Intelligence Dashboard | In-Page Table Integration |
+| :---: | :---: |
+| <img src="data/full_screen.png" width="380" alt="Full Attendance Dashboard" /> | <img src="data/info.png" width="380" alt="In-Page Table Integration" /> |
 
 ---
 
-## 3. Privacy & Safety (100% Local — Zero API Calls / No External Requests)
+## 3. Privacy & Safety (100% Local — Zero API Calls)
 
-- **Pure Client-Side Reading:** All numbers are read directly from the HTML table already displayed in your browser.
-- **Zero API Calls / Zero Network Requests:** The extension makes **zero** HTTP/fetch/API requests to any server. No external servers, analytics, or third-party endpoints are ever contacted.
-- **Zero Server Footprint:** The university server only delivers the original attendance web page; all calculations, leave projections, and UI overlays happen entirely inside your local browser session.
-- **Safe & Undetectable:** Nothing is transmitted, submitted, or modified on the server. Your login credentials, session cookies, and records remain 100% untouched and secure.
+- **Pure Client-Side Reading:** Data is parsed directly from the table HTML already rendered in your browser.
+- **Zero API Calls / Zero Network Requests:** Makes **zero** fetch/HTTP/API requests to any server. Zero external servers or tracking.
+- **Zero Server Footprint:** The university server only delivers the original page; all calculations and overlays execute strictly in local browser memory.
+- **100% Safe & Undetectable:** Credentials, cookies, and server data are never touched, submitted, or transmitted.
