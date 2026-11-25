@@ -1,0 +1,11 @@
+# Test & Export Assets
+data/for_test/
+for_test/
+
+# OS and Editor Artifacts
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+.vscode/
+.idea/
