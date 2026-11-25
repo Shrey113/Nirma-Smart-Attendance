@@ -68,10 +68,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const activeUrl = activeTab && activeTab.url ? activeTab.url.toLowerCase() : '';
   const isAttendanceUrl = activeUrl.includes('studentattendancereport') || activeUrl.includes('nirmauni.ac.in');
+  const popupFooter = document.querySelector('.nsa-footer');
 
   if (!isAttendanceUrl) {
     inactiveState.style.display = 'flex';
     activeState.style.display = 'none';
+    if (popupFooter) popupFooter.style.display = 'none';
 
     btnOpenAttendancePage.addEventListener('click', () => {
       chrome.tabs.create({ url: 'https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx' });
@@ -91,6 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     inactiveState.style.display = 'none';
     activeState.style.display = 'flex';
+    if (popupFooter) popupFooter.style.display = 'flex';
 
     if (btnOpenFullDashboard) {
       btnOpenFullDashboard.addEventListener('click', () => {
