@@ -81,7 +81,7 @@
           <!-- Header -->
           <div class="nsa-drawer-header">
             <div class="nsa-header-left">
-              <div class="nsa-header-icon">A+</div>
+              <img src="${chrome.runtime.getURL('assets/icons/icon48.png')}" class="nsa-header-icon" alt="Logo">
               <div>
                 <h3 class="nsa-header-title" id="nsa-drawer-title">Smart Attendance</h3>
                 <div class="nsa-header-sub" id="nsa-drawer-sub">Single Subject Deep-Dive</div>

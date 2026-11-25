@@ -1,6 +1,8 @@
-# Nirma Smart Attendance
-
-Client-side attendance calculator and what-if leave simulator for Nirma University Student Portal.
+<div align="center">
+  <img src="data/chrome_store_icon_128x128.png" width="96" height="96" alt="Nirma Smart Attendance Logo" />
+  <h1>Nirma Smart Attendance</h1>
+  <p>Client-side attendance calculator and what-if leave simulator for Nirma University Student Portal.</p>
+</div>
 
 ---
 

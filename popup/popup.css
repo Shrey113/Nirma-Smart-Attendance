@@ -64,17 +64,13 @@ body {
   gap: 8px;
 }
 
-.nsa-logo {
+.nsa-logo,
+.nsa-logo-img {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
-  background: var(--primary);
-  color: #fff;
-  font-weight: 800;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 6px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .nsa-title {
@@ -149,16 +145,13 @@ body {
   margin-bottom: 4px;
 }
 
-.nsa-inactive-icon {
-  width: 52px;
-  height: 52px;
+.nsa-inactive-app-icon {
+  width: 58px;
+  height: 58px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1px solid #bfdbfe;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.12);
+  object-fit: contain;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+  display: block;
 }
 
 .nsa-inactive-text {
