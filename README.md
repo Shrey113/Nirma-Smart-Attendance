@@ -40,9 +40,9 @@ A clean, client-side attendance intelligence calculator and leave simulator for 
 
 ---
 
-## 3. Privacy & Protection (100% Local — No AI / No External Calls)
+## 3. Privacy & Safety (100% Local — Zero API Calls / No External Requests)
 
-- **Pure HTML Parsing:** All data is parsed locally from the HTML table already rendered in your browser tab.
-- **Zero AI API Calls:** No external AI models, cloud processors, or third-party servers are used.
-- **No External Network Requests:** Every calculation, formula, and simulation runs locally via browser JavaScript with zero telemetry or tracking.
-- **Safe & Private:** Your login credentials, session cookies, and student records never leave your local device.
+- **Pure Client-Side Reading:** All numbers are read directly from the HTML table already displayed in your browser.
+- **Zero API Calls / Zero Network Requests:** The extension makes **zero** HTTP/fetch/API requests to any server. No external servers, analytics, or third-party endpoints are ever contacted.
+- **Zero Server Footprint:** The university server only delivers the original attendance web page; all calculations, leave projections, and UI overlays happen entirely inside your local browser session.
+- **Safe & Undetectable:** Nothing is transmitted, submitted, or modified on the server. Your login credentials, session cookies, and records remain 100% untouched and secure.
