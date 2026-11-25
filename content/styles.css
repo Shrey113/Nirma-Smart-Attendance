@@ -537,9 +537,9 @@
 
 /* Interactive Simulator for this Course */
 .nsa-single-sim-box {
-  background: var(--nsa-primary-light);
-  border: 1px solid #bfdbfe;
-  border-radius: 10px;
+  background: var(--nsa-gray-50);
+  border: 1px solid var(--nsa-gray-200);
+  border-radius: 8px;
   padding: 12px 14px;
   display: flex;
   flex-direction: column;
@@ -746,18 +746,29 @@
 
 /* Drawer Footer */
 .nsa-drawer-footer {
-  padding: 12px 20px;
+  padding: 10px 16px;
   background: #ffffff;
   border-top: 1px solid var(--nsa-gray-200);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11.5px;
+  flex-wrap: nowrap;
+  gap: 8px;
+  font-size: 11px;
   color: var(--nsa-gray-500);
   flex-shrink: 0;
   position: sticky;
   bottom: 0;
   z-index: 20;
+}
+
+.nsa-drawer-footer .unified-footer-pill {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nsa-drawer-footer .footer-made-by-text {
+  font-size: 11.5px;
 }
 
 .nsa-refresh-btn {

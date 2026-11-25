@@ -5,6 +5,11 @@
 (function (root) {
   'use strict';
 
+  if (root.__nsa_page_integration_initialized) {
+    return;
+  }
+  root.__nsa_page_integration_initialized = true;
+
   const isTargetPage = () => {
     const url = window.location.href.toLowerCase();
     if (url.includes('studentattendancereport') || url.includes('attendancereport')) return true;
@@ -18,9 +23,11 @@
 
   class PageIntegration {
     constructor() {
+      root.pageIntegration = this;
       this.selectedSubjectId = null;
       this.simState = {}; // { [subjectId]: { miss: 0, attend: 0 } }
       this.isDrawerOpen = false;
+      this.drawerRenderedOnce = false;
       this.init();
     }
 
@@ -230,6 +237,7 @@
           this.selectedSubjectId = focusSubjectId;
         }
 
+        this.drawerRenderedOnce = true;
         this.renderDrawerContent();
       }
     }
@@ -241,15 +249,23 @@
         drawer.classList.remove('nsa-open');
         overlay.classList.remove('nsa-open');
         this.isDrawerOpen = false;
+        this.drawerRenderedOnce = false;
       }
     }
 
     handleDataUpdated(records) {
       this.injectInlineTableButtons(records);
       this.updateSubjectDropdown(records);
-      if (this.isDrawerOpen) {
+      // ONLY re-render drawer if drawer is open AND not yet rendered
+      if (this.isDrawerOpen && !this.drawerRenderedOnce) {
+        this.drawerRenderedOnce = true;
         this.renderDrawerContent();
       }
+    }
+
+    injectInlineTableButtonsQuietly(records) {
+      this.injectInlineTableButtons(records);
+      this.updateSubjectDropdown(records);
     }
 
     updateSubjectDropdown(records) {
@@ -480,33 +496,41 @@
               </div>
             </div>
 
-            <!-- 5. Interactive Custom Leave Simulator for this Course -->
-            <div class="nsa-single-sim-box">
-              <div class="nsa-sim-stepper-row">
-                <span class="nsa-sim-stepper-label">Miss Classes (Leaves):</span>
-                <div class="nsa-stepper-ctrl">
-                  <button type="button" class="nsa-stepper-btn" data-act="sim-miss-dec" title="Decrease Leaves">-</button>
-                  <span class="nsa-stepper-val" id="nsa-sim-miss-val">${sim.miss}</span>
-                  <button type="button" class="nsa-stepper-btn" data-act="sim-miss-inc" title="Increase Leaves">+</button>
-                </div>
-              </div>
-
-              <div class="nsa-sim-stepper-row">
-                <span class="nsa-sim-stepper-label">Attend Extra Classes:</span>
-                <div class="nsa-stepper-ctrl">
-                  <button type="button" class="nsa-stepper-btn" data-act="sim-att-dec" title="Decrease Attended">-</button>
-                  <span class="nsa-stepper-val" id="nsa-sim-att-val">${sim.attend}</span>
-                  <button type="button" class="nsa-stepper-btn" data-act="sim-att-inc" title="Increase Attended">+</button>
-                </div>
-              </div>
-
-              <div class="nsa-sim-result-row">
-                <span class="nsa-sim-result-text">
-                  Projected: <strong id="nsa-sim-result-pct" style="color: ${isSimBelow ? '#dc2626' : '#059669'}; font-size: 15px;">${simPct}%</strong> <span id="nsa-sim-result-sessions">(${simP}/${simT})</span>
+            <!-- 5. Interactive Custom Leave & Attendance Simulator -->
+            <div class="nsa-section-card">
+              <div class="nsa-section-head">
+                <span class="nsa-section-label">
+                  <svg class="nsa-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="12" y2="14"></line><line x1="8" y1="18" x2="10" y2="18"></line></svg>
+                  Custom Leave Simulator (What-If Calculator)
                 </span>
-                <span id="nsa-sim-result-diff" style="font-weight: 700; font-size: 12px; color: ${simDiff >= 0 ? '#059669' : '#dc2626'};">
-                  ${simDiff > 0 ? '+' : ''}${simDiff}%
-                </span>
+              </div>
+              <div class="nsa-single-sim-box">
+                <div class="nsa-sim-stepper-row">
+                  <span class="nsa-sim-stepper-label">Miss Classes (Leaves):</span>
+                  <div class="nsa-stepper-ctrl">
+                    <button type="button" class="nsa-stepper-btn" data-act="sim-miss-dec" title="Decrease Leaves">-</button>
+                    <span class="nsa-stepper-val" id="nsa-sim-miss-val">${sim.miss}</span>
+                    <button type="button" class="nsa-stepper-btn" data-act="sim-miss-inc" title="Increase Leaves">+</button>
+                  </div>
+                </div>
+
+                <div class="nsa-sim-stepper-row">
+                  <span class="nsa-sim-stepper-label">Attend Extra Classes:</span>
+                  <div class="nsa-stepper-ctrl">
+                    <button type="button" class="nsa-stepper-btn" data-act="sim-att-dec" title="Decrease Attended">-</button>
+                    <span class="nsa-stepper-val" id="nsa-sim-att-val">${sim.attend}</span>
+                    <button type="button" class="nsa-stepper-btn" data-act="sim-att-inc" title="Increase Attended">+</button>
+                  </div>
+                </div>
+
+                <div class="nsa-sim-result-row">
+                  <span class="nsa-sim-result-text">
+                    Projected: <strong id="nsa-sim-result-pct" style="color: ${isSimBelow ? '#dc2626' : '#059669'}; font-size: 15px;">${simPct}%</strong> <span id="nsa-sim-result-sessions">(${simP}/${simT})</span>
+                  </span>
+                  <span id="nsa-sim-result-diff" style="font-weight: 700; font-size: 12px; color: ${simDiff >= 0 ? '#059669' : '#dc2626'};">
+                    ${simDiff > 0 ? '+' : ''}${simDiff}%
+                  </span>
+                </div>
               </div>
             </div>
           </div>
