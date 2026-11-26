@@ -2,27 +2,34 @@
   <img src="data/chrome_store_icon_128x128.png" width="96" height="96" alt="Nirma Smart Attendance Logo" />
   <h1>Nirma Smart Attendance</h1>
   <p>Client-side attendance calculator and what-if leave simulator for Nirma University Student Portal.</p>
+
+  <p>
+    <a href="https://chromewebstore.google.com/detail/nirma-smart-attendance/onagdnciilbhdofbggenacnojlkolibe">
+      <img src="https://img.shields.io/badge/Chrome_Web_Store-Add_to_Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Available in Chrome Web Store" />
+    </a>
+  </p>
 </div>
 
 ---
 
-## 1. How to Use & Update
+## 1. Installation & Usage
 
-### First-Time Installation
-1. **Download Source Code:**
-   - Click the green **Code** button at the top of this GitHub repository → **Download ZIP** (or run `git clone https://github.com/Shrey113/Nirma-Smart-Attendance.git`).
-   - Extract the downloaded ZIP file anywhere on your computer.
-2. **Load into Browser:**
-   - Open Chrome, Brave, or Edge and go to `chrome://extensions/`.
-   - Enable **Developer mode** (toggle in the top-right corner).
-   - Click **Load unpacked** and select the extracted folder (`Nirma Smart Attendance`).
-3. **Open Portal:**
-   - Open [Nirma Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) and log in.
-   - Click the **Info** button on any course row to view safe leaves & use the leave simulator, or use the extension toolbar popup.
+### 🚀 Direct 1-Click Install
 
-### How to Update to Latest Version
-1. Download the latest code (or `git pull`) and replace the files in your existing folder.
-2. Go to `chrome://extensions/` and click the **🔄 Reload** icon on the **Nirma Smart Attendance** extension card.
+Install directly from the official **Chrome Web Store**:
+
+👉 **[Click here to Install Nirma Smart Attendance](https://chromewebstore.google.com/detail/nirma-smart-attendance/onagdnciilbhdofbggenacnojlkolibe)**
+
+Click **"Add to Chrome"** (works on Chrome, Brave, and Edge).
+
+### 📖 How to Use
+1. Open [Nirma Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) and log in.
+2. The extension automatically activates on the page:
+   - **Floating Menu:** Click the floating pill at the bottom right corner for an instant overview popup.
+   - **Course Row Badges:** Click the **Info** button on any course row to view safe leaves & use the leave simulator drawer.
+   - **Full View:** Click **Full View & Leave Simulator** to view the comprehensive analytics dashboard.
+
+*(Updates from the Chrome Web Store are installed automatically in the background).*
 
 ---
 
@@ -49,9 +56,8 @@
 
 ## 4. Mobile Browser Setup (Android)
 
-Standard mobile Chrome does not allow extensions, but you can use it on Android via **Kiwi Browser**:
+Standard mobile Chrome does not support extensions, but you can install it on Android with 1 click using **Kiwi Browser**:
 1. Install **[Kiwi Browser](https://play.google.com/store/apps/details?id=com.kiwibrowser.browser)** from Google Play Store.
-2. Download this repository ZIP on your phone (**Code** → **Download ZIP**).
-3. In Kiwi Browser, tap **⋮ (Menu)** → **Extensions** → toggle **Developer mode** ON.
-4. Tap **+(from .zip / .crx / user.js)** and select the downloaded ZIP file.
-5. Open [Nirma Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) in Kiwi Browser to use the extension on mobile.
+2. Open the **[Chrome Web Store Link](https://chromewebstore.google.com/detail/nirma-smart-attendance/onagdnciilbhdofbggenacnojlkolibe)** inside Kiwi Browser.
+3. Tap **"Add to Chrome"**.
+4. Open [Nirma Attendance Report](https://mis.nirmauni.ac.in/Reports/StudentAttendanceReport.aspx) in Kiwi Browser to use the extension on mobile.
